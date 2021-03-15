@@ -1,5 +1,4 @@
-public class Game {
-    public static final int SCALE = 3; // How much to upscale pixel graphics.
+public class Game implements Constants {
 
     public static void update(){
         // Update game objects!

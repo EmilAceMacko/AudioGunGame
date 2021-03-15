@@ -1,12 +1,8 @@
 import processing.core.PApplet;
 
-public class Sketch extends PApplet {
+public class Sketch extends PApplet implements Constants {
     // Sketch Variables:
     public static PApplet processing; // The link to the Processing library for other objects to use through the Sketch.
-
-    // Global Constants:
-    public static final int WINDOW_WIDTH = 768;
-    public static final int WINDOW_HEIGHT = 720;
 
     // Entry-point:
     public static void main(String[] args) {
@@ -30,12 +26,5 @@ public class Sketch extends PApplet {
         // Game loop:
         Game.update(); // Update game code.
         Game.display(); // Draw game graphics.
-    }
-
-    // Custom Global Functions:
-
-    public static boolean collision() {
-        // TODO code AABB collision between two objects!
-        return false;
     }
 }
