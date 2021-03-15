@@ -1,3 +1,5 @@
+package Game;
+
 public interface Constants {
     // ---------------------------- Variables:
     // Waveforms:

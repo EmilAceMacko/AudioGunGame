@@ -1,10 +1,14 @@
+package Game;
+
 public class Game implements Constants {
 
-    public static void update(){
+    Byte[][][][] TileData;
+
+    public static void update() {
         // Update game objects!
     }
 
-    public static void display(){
+    public static void display() {
         // Example of drawing using Processing:
         Sketch.processing.background(0);
         Sketch.processing.stroke(255);
