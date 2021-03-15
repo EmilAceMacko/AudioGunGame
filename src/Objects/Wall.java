@@ -1,4 +1,12 @@
 package Objects;
 
-public class Wall extends Object {
+import Game.GameObject;
+
+public class Wall extends GameObject {
+
+    boolean wallSolid = solid;
+
+    Wall () {
+        wallSolid = false;
+    }
 }
