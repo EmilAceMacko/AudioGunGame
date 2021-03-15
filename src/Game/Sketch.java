@@ -30,4 +30,3 @@ public class Sketch extends PApplet implements Constants {
         Game.display(); // Draw game graphics.
     }
 }
-//No Change, just for ValdeFar
