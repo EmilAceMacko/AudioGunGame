@@ -1,4 +1,20 @@
 package Objects;
 
-public class Enemy extends Object {
+import Game.GameObject;
+
+public class Enemy extends GameObject {
+
+    // ???
+
+    public Enemy() {
+
+    }
+
+    public void updateActions() {
+
+    }
+
+    public void updateGraphics() {
+
+    }
 }
