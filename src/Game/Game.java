@@ -54,6 +54,10 @@ public class Game implements Constants {
         // Update mouse coordinates:
         updateMouse();
         // Update game objects!
+        camera.update();
+        dialogue.update();
+        // Update inputs (change old press/release states):
+        updateInput();
     }
 
     public static void updateMouse() {
