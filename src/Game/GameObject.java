@@ -4,10 +4,11 @@ import processing.core.PVector;
 
 public abstract class GameObject implements Constants {
     // Standard Object Variables:
-    public PVector pos, vel;
+    public PVector pos;
     public int width, height;
     public boolean solid;
     public int spriteID;
+    boolean customSprite;
     // Audio Variables:
     public boolean influencedByAudio;
     public int waveInfluence, freqInfluence, audioPatience;
@@ -16,7 +17,6 @@ public abstract class GameObject implements Constants {
     public GameObject() {
         // Default values:
         pos = new PVector(0, 0);
-        vel = new PVector(0, 0);
         width = TILE;
         height = TILE;
         solid = true;
@@ -28,12 +28,14 @@ public abstract class GameObject implements Constants {
     }
 
     // Update object code:
-    public void updateActions() {
-
+    public void update() {
+        // Perform movement:
     }
 
-    // Update object graphics:
-    public void updateGraphics() {
-        // Default object has no specific graphics code.
+    // Update graphics and draw object:
+    public void display() {
+        int xLocal = (int) (pos.x - Game.camera.roomPos.x * ROOM_WIDTH);
+        int yLocal = (int) (pos.y - Game.camera.roomPos.y * ROOM_HEIGHT);
+        if (spriteID > 0) Sketch.processing.image(Game.assetMgr.spriteSheet[spriteID-1], xLocal, yLocal, width, height);
     }
 }

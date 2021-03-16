@@ -1,0 +1,61 @@
+# Test room
+
+-room
+	-x 0
+	-y 0
+
+	-tiles
+		1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1
+		1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+	\tiles
+
+	-object # North wall
+		-type wall
+		-x 0
+		-y 0
+		-w 16
+		-h 1
+	\object
+	
+	-object # South wall
+		-type wall
+		-x 0
+		-y 11
+		-w 16
+		-h 1
+	\object
+	
+	-object # West wall
+		-type wall
+		-x 0
+		-y 1
+		-w 1
+		-h 10
+	\object
+	
+	-object # East wall
+		-type wall
+		-x 15
+		-y 1
+		-w 1
+		-h 10
+	\object
+	
+	-object # Player
+		-type player
+		-x 4
+		-y 4
+		-global
+	\object
+
+\room

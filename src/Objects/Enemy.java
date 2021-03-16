@@ -1,20 +1,18 @@
 package Objects;
 
-import Game.GameObject;
+import Game.Entity;
 
-public class Enemy extends GameObject {
-
-    // ???
+public class Enemy extends Entity {
 
     public Enemy() {
+        super();
+    }
+
+    public void update() {
 
     }
 
-    public void updateActions() {
-
-    }
-
-    public void updateGraphics() {
+    public void display() {
 
     }
 }

@@ -1,7 +1,12 @@
 package Game;
 
+import processing.core.PVector;
+
 public interface Constants {
     // ---------------------------- Variables:
+    // Debug:
+    boolean DEBUG = true;
+
     // Waveform types:
     int WAVE_NONE = 0;
     int WAVE_SINE = 1;
@@ -16,15 +21,16 @@ public interface Constants {
 
     // Screen variables:
     int SCALE = 3; // How much the pixel graphics are upscaled.
-    int WINDOW_WIDTH = 768;
-    int WINDOW_HEIGHT = 720;
+    int WINDOW_WIDTH = 768; // In pixels.
+    int WINDOW_HEIGHT = 720; // In pixels.
 
     // World variables:
-    int ROOM_WIDTH = WINDOW_WIDTH;
-    int ROOM_HEIGHT = WINDOW_HEIGHT;
-    int WORLD_WIDTH = 16; // Width of the world in rooms.
-    int WORLD_HEIGHT = 16; // Height of the world in rooms.
+    int ROOM_WIDTH = WINDOW_WIDTH; // In pixels.
+    int ROOM_HEIGHT = WINDOW_HEIGHT; // In pixels.
+    int WORLD_WIDTH = 16; // In rooms.
+    int WORLD_HEIGHT = 16; // In rooms.
     int TILE = 16 * SCALE; // The width/height of a single tile (16 pixels times the game scale). Objects should have dimensions that are measured in whole tiles!
+    int SPEED_LIMIT = TILE / 4; // The limit to how fast objects are allowed to move (for the sake of accurate collisions)
     int UP = 0;
     int LEFT = 1;
     int DOWN = 2;
@@ -41,37 +47,8 @@ public interface Constants {
     int MB_LEFT = 5;
     int MB_RIGHT = 6;
     // Input states:
-    int NONE = 0;
-    int HOLD = 1;
-    int PRESS = 3;
-    int RELEASE = 4;
-
-    // ---------------------------- Functions:
-
-    // Collision check:
-    static boolean collision(GameObject self, GameObject other) {
-        return collision(self, 0, 0, other);
-    }
-    static boolean collision(GameObject self, float xOff, float yOff, GameObject other) {
-        return (self.pos.x + xOff < other.pos.x + other.width &&
-                self.pos.x + xOff + self.width > other.pos.x &&
-                self.pos.y + yOff < other.pos.y + other.height &&
-                self.pos.y + yOff + self.height > other.pos.y);
-    }
-
-    // Direction conversion:
-    static int xDir(int _dir) {
-        return switch (_dir) {
-            case (LEFT) -> -1;
-            case (RIGHT) -> 1;
-            default -> 0;
-        };
-    }
-    static int yDir(int _dir) {
-        return switch (_dir) {
-            case (UP) -> -1;
-            case (DOWN) -> 1;
-            default -> 0;
-        };
-    }
+    int NONE = 0; // No input.
+    int HOLD = 1; // Input is being held.
+    int PRESS = 3; // Input has just been pressed.
+    int RELEASE = 4; // Input has just been released.
 }

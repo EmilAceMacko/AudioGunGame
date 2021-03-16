@@ -4,7 +4,8 @@ public class Mixer {
     public int waveform;
     public int frequency;
 
-    Mixer () {}
+    Mixer() {
+    }
 
     Mixer(int wave, int freq) {
         this.waveform = wave;
@@ -18,5 +19,5 @@ public class Mixer {
     public void display() {
 
     }
-    
+
 }

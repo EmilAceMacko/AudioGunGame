@@ -21,12 +21,17 @@ public class Game implements Constants {
 
     // Constructor:
     public Game() {
+        init();
+    }
+
+    public static void init() {
+        console("Initalizing");
         // Tile data:
         tileData = new Byte[WORLD_WIDTH][WORLD_HEIGHT][ROOM_WIDTH/TILE][ROOM_HEIGHT/TILE];
         // Room objects:
         roomObjects = new ArrayList[WORLD_WIDTH][WORLD_HEIGHT];
-        for(int y = 0; y < WORLD_HEIGHT; y++) {
-            for(int x = 0; x < WORLD_WIDTH; x++) {
+        for (int y = 0; y < WORLD_HEIGHT; y++) {
+            for (int x = 0; x < WORLD_WIDTH; x++) {
                 roomObjects[y][x] = new ArrayList<>();
             }
         }
@@ -42,19 +47,25 @@ public class Game implements Constants {
 
         // Button array:
         input = new int[B_AMOUNT];
-        for(int i = 0; i < B_AMOUNT; i++) {
+        for (int i = 0; i < B_AMOUNT; i++) {
             input[i] = NONE;
         }
         // Mouse coordinates:
         mouse = new PVector(0, 0);
+
+        // Load levels:
+        loader.loadRoom("test.room");
     }
 
     // Update game code:
     public static void update() {
         // Update mouse coordinates:
         updateMouse();
-        // Update game objects!
+        // Update game object code:
+        mixer.update();
+        for(GameObject obj : globalObjects) obj.update();
         camera.update();
+        for(GameObject obj : roomObjects[(int)camera.roomPos.x][(int)camera.roomPos.y]) obj.update();
         dialogue.update();
         // Update inputs (change old press/release states):
         updateInput();
@@ -67,35 +78,33 @@ public class Game implements Constants {
     }
     public static void updateInput() {
         // For every key and mouse button:
-        for(int i = 0; i < B_AMOUNT; i++) {
-            if(input[i] == PRESS) input[i] = HOLD; // If key/button was pressed, change it to hold.
-            else if(input[i] == RELEASE) input[i] = NONE; // If key/button was released, change it to none.
+        for (int i = 0; i < B_AMOUNT; i++) {
+            if (input[i] == PRESS) input[i] = HOLD; // If key/button was pressed, change it to hold.
+            else if (input[i] == RELEASE) input[i] = NONE; // If key/button was released, change it to none.
         }
     }
-
 
     // Display game graphics:
     public static void display() {
         // Draw the background:
         Sketch.processing.background(0);
-
-        // Tell the camera to draw all objects and tiles!
-        // TODO - Draw game graphics via camera!
-
+        // Draw all the objects and tiles via camera:
         camera.display();
-        // Check above if needed
+        // Draw all GUI elements:
         dialogue.display();
+        mixer.display();
     }
 
     // Check if a specific button/key is in a specific input state:
     public static boolean getInput(int button, int state) {
-        if(state == PRESS && input[button] == PRESS) return true;
-        else if(state == HOLD && (input[button] & HOLD) == HOLD) return true;
-        else if(state == RELEASE && input[button] == RELEASE) return true;
+        if (state == PRESS && input[button] == PRESS) return true;
+        else if (state == HOLD && (input[button] & HOLD) == HOLD) return true;
+        else if (state == RELEASE && input[button] == RELEASE) return true;
         else return false;
     }
 
-    public static void loadAssets() {
-
+    // Output a string from the game to the console:
+    public static void console(String msg) {
+        System.out.println("GAME: " + msg);
     }
 }

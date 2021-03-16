@@ -9,11 +9,11 @@ public class NPC extends GameObject {
 
     }
 
-    public void updateActions() {
+    public void update() {
 
     }
 
-    public void updateGraphics() {
+    public void display() {
 
     }
 
