@@ -11,8 +11,8 @@ public class Camera implements Constants {
     // Constructor:
     public Camera() {
         // Default values:
-        roomPos = new PVector(0, 0);
-        target = null;
+        roomPos = new PVector(0, 0); // Which room the camera is viewing.
+        target = null; // The target that the camera will follow.
     }
 
     public void update() {

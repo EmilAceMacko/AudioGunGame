@@ -1,12 +1,12 @@
 package Game;
 
 import processing.core.PImage;
-//import processing.sound.SoundFile;
+import processing.sound.SoundFile;
 
 public class AssetManager implements Assets, Constants {
     // Asset lists:
     PImage[] tileSheet, spriteSheet;
-    //SoundFile[] soundList;
+    SoundFile[] soundList;
     // Asset amounts:
     int tileCount, spriteCount, soundCount;
 
@@ -16,16 +16,14 @@ public class AssetManager implements Assets, Constants {
 
     public void loadAllAssets() {
         // Load tiles:
-        PImage tileImage = Sketch.processing.loadImage(tileFile);
-        int tile = TILE / SCALE;
-        int imageW = tileImage.width;
-        int imageH = tileImage.height;
-        int sheetW = imageW / tile;
-        int sheetH = imageH / tile;
-        tileCount = sheetW * sheetH;
-        tileSheet = new PImage[tileCount];
-        for (int y = 0; y < sheetH; y++) {
-            for (int x = 0; x < sheetW; x++) {
+        PImage tileImage = Sketch.processing.loadImage(tileFile); // Get the tile sheet image.
+        int tile = TILE / SCALE; // The size of each tile in the image (tiles are always square!)
+        int sheetW = tileImage.width / tile; // The width of the tile sheet in tiles.
+        int sheetH = tileImage.height / tile; // The height of the tile sheet in tiles.
+        tileCount = sheetW * sheetH; // The number of tiles in the tile sheet.
+        tileSheet = new PImage[tileCount]; // Create the tile sheet array.
+        for (int y = 0; y < sheetH; y++) { // Vertical loop.
+            for (int x = 0; x < sheetW; x++) { // Horizontal loop.
                 tileSheet[x + y * sheetW] = tileImage.get(x * tile, y * tile, tile, tile);
             }
         }
@@ -38,6 +36,10 @@ public class AssetManager implements Assets, Constants {
         }
 
         // Load sounds:
-
+        soundCount = soundFiles.length;
+        soundList = new SoundFile[soundCount];
+        for(int i = 0; i < soundCount; i++) {
+            soundList[i] = new SoundFile(Sketch.processing, soundFiles[i]); // TODO - Keep an eye on this, "Sketch.processing" may need to just be "Sketch" somehow!
+        }
     }
 }

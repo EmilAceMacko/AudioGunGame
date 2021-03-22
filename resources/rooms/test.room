@@ -58,4 +58,10 @@
 		-global
 	\object
 
+	-object # Enemy
+	    -type enemy troll
+	    -x 12
+	    -y 8
+	\object
+
 \room

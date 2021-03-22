@@ -1,6 +1,7 @@
 package Objects;
 
 import Game.Entity;
+import Game.Game;
 
 public class DeeJay extends Entity {
 
@@ -19,9 +20,25 @@ public class DeeJay extends Entity {
     }
 
     public void update() {
-        // Move to the right as a test:
-        vel.x = moveSpeed;
-        super.update();
+        // Horizontal Inputs:
+        if(Game.getInput(LEFT, HOLD)) {
+            vel.x = -moveSpeed; // Move left.
+        }
+        else if (Game.getInput (RIGHT, HOLD)) {
+            vel.x = moveSpeed; // Move right.
+        }
+        else vel.x = 0; // Don't move.
+
+        // Vertical Inputs:
+        if(Game.getInput(B_UP, HOLD)) {
+            vel.y = -moveSpeed; // Move up.
+        }
+        else if (Game.getInput(DOWN, HOLD)) {
+            vel.y = moveSpeed; // Move down.
+        }
+        else vel.y = 0; // Don't move.
+
+        super.update(); // Let Entity class handle movement.
 
         if (shooting) {
             //DeeJay.fireBullet();

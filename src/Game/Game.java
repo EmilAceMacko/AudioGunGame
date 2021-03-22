@@ -9,15 +9,15 @@ public class Game implements Constants {
     public static ArrayList<GameObject>[][] roomObjects; // [roomX][roomY] <[objIndex]>: A 2D array, filled with ArrayLists.
     public static ArrayList<GameObject> globalObjects; // <[objIndex]>: A regular ArrayList.
     // Game components:
-    public static AssetManager assetMgr;
-    public static LevelLoader loader;
-    public static Mixer mixer;
+    public static AssetManager assetMgr; // Manages the game's assets (graphics and audio).
+    public static LevelLoader loader; // Loads the game's levels into memory from the room files.
+    public static Mixer mixer; // Handles the Mixer GUI and
     public static Camera camera;
     public static DialogueBox dialogue;
     // Game Input:
-    public static int[] input;
-    public static char[] inputMap = {'w', 'a', 's', 'd', ' '};
-    public static PVector mouse;
+    public static int[] input; // Stores the input states of each button (keyboard and mouse).
+    public static char[] inputMap = {'w', 'a', 's', 'd', ' '}; // The keyboard keys to use for input.
+    public static PVector mouse; // Stores the coordinte of the cursor.
 
     // Constructor:
     public Game() {
@@ -62,11 +62,11 @@ public class Game implements Constants {
         // Update mouse coordinates:
         updateMouse();
         // Update game object code:
-        mixer.update();
-        for(GameObject obj : globalObjects) obj.update();
-        camera.update();
-        for(GameObject obj : roomObjects[(int)camera.roomPos.x][(int)camera.roomPos.y]) obj.update();
-        dialogue.update();
+        mixer.update(); // Update mixer before other objects.
+        for(GameObject obj : globalObjects) obj.update(); // Update all global objects (including DeeJay).
+        camera.update(); // Update the camera (so it looks at DeeJay's current room).
+        for(GameObject obj : roomObjects[(int)camera.roomPos.x][(int)camera.roomPos.y]) obj.update(); // Update all other objects in the current room.
+        dialogue.update(); // Update dialogue box.
         // Update inputs (change old press/release states):
         updateInput();
     }
@@ -86,7 +86,7 @@ public class Game implements Constants {
 
     // Display game graphics:
     public static void display() {
-        // Draw the background:
+        // Draw the default background:
         Sketch.processing.background(0);
         // Draw all the objects and tiles via camera:
         camera.display();

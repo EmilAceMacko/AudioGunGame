@@ -1,6 +1,7 @@
 package Game;
 
 import Objects.DeeJay;
+import Objects.Enemies.Troll;
 import Objects.Wall;
 
 import java.io.BufferedReader;
@@ -40,13 +41,13 @@ public class LevelLoader implements Constants {
             // Loop through each line until the end of the room file:
             while (line != null && !done) {
                 line = line.replace("\t", " "); // Replace tabs with spaces.
-                if(!line.equals("")) {
-                    for (int i = 0; i < line.length(); i++) {
-                        if (line.charAt(i) != ' ') {
-                            String[] args = line.substring(i).split(" ");
+                if(!line.equals("")) { // If not a blank line:
+                    for (int i = 0; i < line.length(); i++) { // Loop through all chars in this line:
+                        if (line.charAt(i) != ' ') { // If char is not a space.
+                            String[] args = line.substring(i).split(" "); // Split the line into separate strings, with spaces as separators.
                             if (readingRoom) { // Read room data:
-                                if (readingTiles) { // Read tile data:
-                                    if (args[0].equals("\\tiles")) {
+                                if (readingTiles) { // If reading tile data:
+                                    if (args[0].equals("\\tiles")) { // If end of tile block:
                                         readingTiles = false; // Stop reading tile data.
                                     } else {
                                         for (String arg : args) { // Loop through each tile in the current row and apply it to the current room:
@@ -73,6 +74,11 @@ public class LevelLoader implements Constants {
                                             switch (args[1]) {
                                                 case "wall" -> currentObject = new Wall();
                                                 case "player" -> currentObject = new DeeJay();
+                                                case "enemy" -> {
+                                                    switch(args[2]) {
+                                                        case "troll" -> currentObject = new Troll();
+                                                    }
+                                                }
                                             }
                                         }
                                     } else { // We're creating an object:

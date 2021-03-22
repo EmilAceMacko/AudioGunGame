@@ -21,9 +21,9 @@ public class Entity extends GameObject implements Constants {
         super.update();
         if(vel.x != 0.0f || vel.y != 0.0f) {
             moving = true;
-            move();
         }
         else if (moving) moving = false;
+        move();
 
     }
 
@@ -69,9 +69,25 @@ public class Entity extends GameObject implements Constants {
                 PVector otherC = new PVector(obj.pos.x + obj.width/2.0f, obj.pos.y + obj.height/2.0f, Math.min(obj.width, obj.height)/2.0f);
 
                 double distSqr = Math.pow(otherC.x - selfC.x, 2) + Math.pow(otherC.y - selfC.y, 2); // The distance between the entities (squared)
-                double angle = Math.atan2(otherC.y - selfC.y, otherC.x - selfC.x); // The angle between the objects.
+                double angle = Math.atan2(selfC.y - otherC.y, selfC.x - otherC.x); // The angle between the objects.
                 double overlap = Math.sqrt(Math.pow(otherC.z + selfC.z, 2) - distSqr); // The total overlap distance between the entities.
-                double pushFactor = 0.25;
+                double pushFactor = 0.05;
+                if (overlap > 0.0f) {
+                    push.add((float)(Math.cos(angle) * overlap * pushFactor), (float)(Math.sin(angle) * overlap * pushFactor));
+                }
+                ents.add(obj);
+            }
+        }
+        for (GameObject obj : Game.globalObjects) {
+            if (obj != this && obj instanceof Entity && obj.solid) {
+                // Create circular hitboxes for self and other (x/y = center coordinate, z = radius):
+                PVector selfC = new PVector(pos.x + width/2.0f, pos.y + height/2.0f, Math.min(width, height)/2.0f);
+                PVector otherC = new PVector(obj.pos.x + obj.width/2.0f, obj.pos.y + obj.height/2.0f, Math.min(obj.width, obj.height)/2.0f);
+
+                double distSqr = Math.pow(otherC.x - selfC.x, 2) + Math.pow(otherC.y - selfC.y, 2); // The distance between the entities (squared)
+                double angle = Math.atan2(selfC.y - otherC.y, selfC.x - otherC.x); // The angle between the objects.
+                double overlap = Math.sqrt(Math.pow(otherC.z + selfC.z, 2) - distSqr); // The total overlap distance between the entities.
+                double pushFactor = 0.05;
                 if (overlap > 0.0f) {
                     push.add((float)(Math.cos(angle) * overlap * pushFactor), (float)(Math.sin(angle) * overlap * pushFactor));
                 }
