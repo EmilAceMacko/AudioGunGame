@@ -51,4 +51,10 @@ public interface Constants {
     int HOLD = 1; // Input is being held.
     int PRESS = 3; // Input has just been pressed.
     int RELEASE = 4; // Input has just been released.
+
+    // Sprite markers:
+    int SPR_FONT_START = 1;
+    int SPR_FONT_LENGTH = 95;
+    int SPR_DEEJAY_START = 96;
+    int SPR_DEEJAY_LENGTH = 10;
 }

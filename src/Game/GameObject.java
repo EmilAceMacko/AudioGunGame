@@ -8,7 +8,6 @@ public abstract class GameObject implements Constants {
     public int width, height;
     public boolean solid;
     public int spriteID;
-    boolean customSprite;
     // Audio Variables:
     public boolean influencedByAudio;
     public int waveInfluence, freqInfluence, audioPatience;
@@ -29,7 +28,7 @@ public abstract class GameObject implements Constants {
 
     // Update object code:
     public void update() {
-        // Perform movement:
+
     }
 
     // Update graphics and draw object:

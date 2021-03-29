@@ -16,7 +16,7 @@ public class AssetManager implements Assets, Constants {
 
     public void loadAllAssets() {
         // Load tiles:
-        PImage tileImage = Sketch.processing.loadImage(tileFile); // Get the tile sheet image.
+        PImage tileImage = Sketch.processing.loadImage(graphicsDir + tileFile); // Get the tile sheet image.
         int tile = TILE / SCALE; // The size of each tile in the image (tiles are always square!)
         int sheetW = tileImage.width / tile; // The width of the tile sheet in tiles.
         int sheetH = tileImage.height / tile; // The height of the tile sheet in tiles.
@@ -32,7 +32,7 @@ public class AssetManager implements Assets, Constants {
         spriteCount = spriteFiles.length;
         spriteSheet = new PImage[spriteCount];
         for(int i = 0; i < spriteCount; i++) {
-            spriteSheet[i] = Sketch.processing.loadImage(spriteFiles[i]);
+            spriteSheet[i] = Sketch.processing.loadImage(graphicsDir + spriteFiles[i]);
         }
 
         // Load sounds:

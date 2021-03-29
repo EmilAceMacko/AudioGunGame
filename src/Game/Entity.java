@@ -8,33 +8,34 @@ public class Entity extends GameObject implements Constants {
 
     public PVector vel, push;
     public boolean moving;
+    public GameObject[] collisions;
 
     public Entity() {
-        // Default values:
         super();
-        vel = new PVector(0, 0);
-        push = new PVector(0, 0);
-        moving = false;
+        // Default values:
+        vel = new PVector(0, 0); // The current velocity of this entity.
+        push = new PVector(0, 0); // How much this entity is being pushed away from another entity.
+        moving = false; // Whether this entity is currently moving.
+        collisions = new GameObject[0]; // Holds a list of all the objects that this entity has collided with after moving!
     }
 
     public void update() {
         super.update();
-        if(vel.x != 0.0f || vel.y != 0.0f) {
-            moving = true;
-        }
-        else if (moving) moving = false;
-        move();
-
+        // Determine whether we're moving:
+        moving = (vel.x != 0.0f || vel.y != 0.0f);
+        // Move and store the list of collisions (if there are any):
+        collisions = move();
     }
 
     // Returns an array of the objects that were collided with.
     public GameObject[] move() {
-        ArrayList<GameObject> collided; // Stores all the objects that have been collided with.
+        ArrayList<GameObject> collided = new ArrayList<>(); // Stores all the objects that have been collided with.
         push.set(0, 0); // The pushing force that pushes this entity away from other entities.
         vel.limit(SPEED_LIMIT); // Limit the velocity.
 
         // Check for collision against other Entities first:
-        collided = entityCollision();
+        collided.addAll(entityCollision(Game.roomObjects[(int) Game.camera.roomPos.x][(int) Game.camera.roomPos.y]));
+        collided.addAll(entityCollision(Game.globalObjects));
         push.limit(SPEED_LIMIT); // Limit the push force.
 
         // Check for collision against non-entity objects lastly (one axis at a time):
@@ -60,25 +61,9 @@ public class Entity extends GameObject implements Constants {
     }
 
     // Check for collision against Entity objects:
-    public ArrayList<GameObject> entityCollision() {
+    public ArrayList<GameObject> entityCollision(ArrayList<GameObject> objectList) {
         ArrayList<GameObject> ents = new ArrayList<>();
-        for (GameObject obj : Game.roomObjects[(int) Game.camera.roomPos.x][(int) Game.camera.roomPos.y]) {
-            if (obj != this && obj instanceof Entity && obj.solid) {
-                // Create circular hitboxes for self and other (x/y = center coordinate, z = radius):
-                PVector selfC = new PVector(pos.x + width/2.0f, pos.y + height/2.0f, Math.min(width, height)/2.0f);
-                PVector otherC = new PVector(obj.pos.x + obj.width/2.0f, obj.pos.y + obj.height/2.0f, Math.min(obj.width, obj.height)/2.0f);
-
-                double distSqr = Math.pow(otherC.x - selfC.x, 2) + Math.pow(otherC.y - selfC.y, 2); // The distance between the entities (squared)
-                double angle = Math.atan2(selfC.y - otherC.y, selfC.x - otherC.x); // The angle between the objects.
-                double overlap = Math.sqrt(Math.pow(otherC.z + selfC.z, 2) - distSqr); // The total overlap distance between the entities.
-                double pushFactor = 0.05;
-                if (overlap > 0.0f) {
-                    push.add((float)(Math.cos(angle) * overlap * pushFactor), (float)(Math.sin(angle) * overlap * pushFactor));
-                }
-                ents.add(obj);
-            }
-        }
-        for (GameObject obj : Game.globalObjects) {
+        for (GameObject obj : objectList) {
             if (obj != this && obj instanceof Entity && obj.solid) {
                 // Create circular hitboxes for self and other (x/y = center coordinate, z = radius):
                 PVector selfC = new PVector(pos.x + width/2.0f, pos.y + height/2.0f, Math.min(width, height)/2.0f);

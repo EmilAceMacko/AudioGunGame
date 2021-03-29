@@ -2,6 +2,7 @@ package Game;
 
 import Objects.DeeJay;
 import Objects.Enemies.Troll;
+import Objects.NPCs.NPC_IntroGuide;
 import Objects.Wall;
 
 import java.io.BufferedReader;
@@ -19,20 +20,19 @@ public class LevelLoader implements Constants {
     // Load room data into the game from a room file:
     public void loadRoom(String filename) {
         // Set up the loader variables:
-        int roomX = 0;
-        int roomY = 0;
-        int tileX = 0;
-        int tileY = 0;
-        boolean done = false;
-        boolean readingRoom = false;
-        boolean readingTiles = false;
-        boolean readingObject = false;
-        GameObject currentObject = null;
-        boolean globalObject = false;
+        int roomX = 0; // X coordinate of the room that is currently being loaded.
+        int roomY = 0; // Y coordinate of the room that is currently being loaded.
+        int tileX = 0; // X coordinate of the tile that has been read so far (when reading tiles).
+        int tileY = 0; // Y coordinate of the tile that has been read so far (when reading tiles).
+        boolean done = false; // Whether we're done loading a room.
+        boolean readingRoom = false; // Whether we're currently reading room data.
+        boolean readingTiles = false; // Whether we're currently reading tile data.
+        boolean readingObject = false; // Whether we're currently reading object data.
+        GameObject currentObject = null; // Holds the address of the object that is created and put data into.
+        boolean globalObject = false; // Whether the object that is being read should be treated as a global object.
+        BufferedReader reader; // The string reader that reads the room file.
 
-        // The reader that reads the room file:
-        BufferedReader reader;
-        try {
+        try { // Try loading the file and catch I/O exceptions.
             Game.console("ROOM: Loading: " + filename);
             // Open the room file:
             reader = new BufferedReader(new FileReader("resources/rooms/" + filename));
@@ -40,7 +40,7 @@ public class LevelLoader implements Constants {
             String line = reader.readLine().toLowerCase().split("#")[0];
             // Loop through each line until the end of the room file:
             while (line != null && !done) {
-                line = line.replace("\t", " "); // Replace tabs with spaces.
+                line = line.replace("\t", " ").replaceAll("\\s+", " "); // Replace tabs with spaces and remove consecutive spaces.
                 if(!line.equals("")) { // If not a blank line:
                     for (int i = 0; i < line.length(); i++) { // Loop through all chars in this line:
                         if (line.charAt(i) != ' ') { // If char is not a space.
@@ -77,6 +77,11 @@ public class LevelLoader implements Constants {
                                                 case "enemy" -> {
                                                     switch(args[2]) {
                                                         case "troll" -> currentObject = new Troll();
+                                                    }
+                                                }
+                                                case "npc" -> {
+                                                    switch(args[2]) {
+                                                        case "intro" -> currentObject = new NPC_IntroGuide();
                                                     }
                                                 }
                                             }
