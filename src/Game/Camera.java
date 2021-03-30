@@ -57,15 +57,13 @@ public class Camera implements Constants {
             Sketch.processing.strokeWeight(2);
             Sketch.processing.stroke(0, 255, 128);
             for (GameObject obj : Game.roomObjects[roomX][roomY]) {
-                int xLocal = (int) (obj.pos.x - roomPos.x * ROOM_WIDTH);
-                int yLocal = (int) (obj.pos.y - roomPos.y * ROOM_HEIGHT);
-                Sketch.processing.rect(xLocal, yLocal, obj.width, obj.height);
+                PVector localPos = Game.getLocalCoordinates(obj.pos);
+                Sketch.processing.rect(localPos.x, localPos.y, obj.width, obj.height);
             }
             Sketch.processing.stroke(255, 128, 0);
             for (GameObject obj : Game.globalObjects) {
-                int xLocal = (int) (obj.pos.x - roomPos.x * ROOM_WIDTH);
-                int yLocal = (int) (obj.pos.y - roomPos.y * ROOM_HEIGHT);
-                Sketch.processing.rect(xLocal, yLocal, obj.width, obj.height);
+                PVector localPos = Game.getLocalCoordinates(obj.pos);
+                Sketch.processing.rect(localPos.x, localPos.y, obj.width, obj.height);
             }
             Sketch.processing.popMatrix();
         }

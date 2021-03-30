@@ -1,7 +1,7 @@
 package Game;
 
 import Objects.DeeJay;
-import Objects.Enemies.Troll;
+import Objects.Enemies.Slime;
 import Objects.NPCs.NPC_IntroGuide;
 import Objects.Wall;
 
@@ -76,7 +76,7 @@ public class LevelLoader implements Constants {
                                                 case "player" -> currentObject = new DeeJay();
                                                 case "enemy" -> {
                                                     switch(args[2]) {
-                                                        case "troll" -> currentObject = new Troll();
+                                                        case "slime" -> currentObject = new Slime();
                                                     }
                                                 }
                                                 case "npc" -> {
@@ -88,8 +88,8 @@ public class LevelLoader implements Constants {
                                         }
                                     } else { // We're creating an object:
                                         switch (args[0]) { // Object parameters:
-                                            case "-x" -> currentObject.pos.x = Float.parseFloat(args[1]) * TILE;
-                                            case "-y" -> currentObject.pos.y = Float.parseFloat(args[1]) * TILE;
+                                            case "-x" -> currentObject.pos.x = Float.parseFloat(args[1]) * TILE + roomX * ROOM_WIDTH;
+                                            case "-y" -> currentObject.pos.y = Float.parseFloat(args[1]) * TILE + roomY * ROOM_HEIGHT;
                                             case "-w" -> currentObject.width = Integer.parseInt(args[1]) * TILE;
                                             case "-h" -> currentObject.height = Integer.parseInt(args[1]) * TILE;
                                             case "-global" -> globalObject = true;

@@ -114,7 +114,33 @@ public interface Assets {
             "deejay/spr_deejay_walk_1_r.png",
             "deejay/spr_deejay_walk_2_r.png",
             "deejay/spr_deejay_walk_3_r.png",
-            "deejay/spr_deejay_gun_r.png"
+            "deejay/spr_deejay_gun_r.png",
+            // ENEMY - SLIME:
+            "enemies/slime/spr_slime_1.png",
+            "enemies/slime/spr_slime_2.png",
+            "enemies/slime/spr_slime_3.png",
+            "enemies/slime/spr_slime_4.png",
+            "enemies/slime/spr_slime_5.png", // Spr no. 110
+            "enemies/slime/spr_slime_6.png",
+            // NPCs:
+            "npcs/spr_npc_1_idle_1.png",
+            "npcs/spr_npc_1_idle_2.png",
+            "npcs/spr_npc_1_happy_1.png",
+            "npcs/spr_npc_1_happy_2.png",
+            "npcs/spr_npc_1_mad_1.png",
+            "npcs/spr_npc_1_mad_2.png",
+            "npcs/spr_npc_2_idle_1.png",
+            "npcs/spr_npc_2_idle_2.png",
+            "npcs/spr_npc_2_happy_1.png", // Spr no. 120
+            "npcs/spr_npc_2_happy_2.png",
+            "npcs/spr_npc_2_mad_1.png",
+            "npcs/spr_npc_2_mad_2.png",
+            "npcs/spr_npc_3_idle_1.png",
+            "npcs/spr_npc_3_idle_2.png",
+            "npcs/spr_npc_3_happy_1.png",
+            "npcs/spr_npc_3_happy_2.png",
+            "npcs/spr_npc_3_mad_1.png",
+            "npcs/spr_npc_3_mad_2.png"
     };
     // Filenames of the sound effects:
     String[] soundFiles = {};

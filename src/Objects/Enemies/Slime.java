@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import Objects.Enemy;
 
 
-public class Troll extends Enemy {
+public class Slime extends Enemy {
 
     public boolean patrolling = true;
     private int move = 1;
@@ -15,19 +15,18 @@ public class Troll extends Enemy {
     private int timeMax = 180;
     private int pause = 0;
 
-    public Troll() {
+    public Slime() {
         super();
+        spriteID = SPR_ENEMY_SLIME_START;
+        animated = true;
+        animSpeed = 0.25f;
+        animStart = spriteID;
+        animLength = SPR_ENEMY_SLIME_LENGTH;
     }
 
     public void update() {
         Patrol();
-
-
-
         super.update();
-    }
-
-    public void display() {
     }
 
     public void Patrol() {
@@ -40,8 +39,6 @@ public class Troll extends Enemy {
                 if (timeleft >= timeMax) {
                     move = 2;
                     timeleft = 0;
-
-
                 }
             }
             if (move == 2 || move == 0) {
@@ -57,8 +54,6 @@ public class Troll extends Enemy {
                         pause = 0;
                     }
                 }
-
-
             }
             if (move == 3) {
                 timeright +=1;
@@ -66,13 +61,17 @@ public class Troll extends Enemy {
                 if (timeright >= timeMax) {
                     move = 0;
                     timeright = 0;
-
                 }
             }
-
-        } else if (!patrolling) {
+        } else {
             vel.x = 0;
         }
+        // Animate the slime:
+        animate();
+    }
+
+    public void display() {
+        super.display();
     }
 
 }

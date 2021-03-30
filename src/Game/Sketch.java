@@ -27,7 +27,6 @@ public class Sketch extends PApplet implements Constants {
         Game.init();
     }
 
-
     public void keyPressed() {
         // Making sure that we can read Uppercase letters - Changes it to a string and then back to a char:
         char newKey = Character.toString(key).toLowerCase().charAt(0);

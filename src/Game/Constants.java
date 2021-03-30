@@ -57,4 +57,16 @@ public interface Constants {
     int SPR_FONT_LENGTH = 95;
     int SPR_DEEJAY_START = 96;
     int SPR_DEEJAY_LENGTH = 10;
+    int SPR_ENEMY_SLIME_START = 106;
+    int SPR_ENEMY_SLIME_LENGTH = 6;
+    int SPR_NPC_1_IDLE_START = 112;
+    int SPR_NPC_1_HAPPY_START = 114;
+    int SPR_NPC_1_MAD_START = 116;
+    int SPR_NPC_2_IDLE_START = 118;
+    int SPR_NPC_2_HAPPY_START = 120;
+    int SPR_NPC_2_MAD_START = 122;
+    int SPR_NPC_3_IDLE_START = 124;
+    int SPR_NPC_3_HAPPY_START = 126;
+    int SPR_NPC_3_MAD_START = 128;
+    int SPR_NPC_LENGTH = 2;
 }

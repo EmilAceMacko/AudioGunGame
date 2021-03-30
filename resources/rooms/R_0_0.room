@@ -43,13 +43,21 @@
 		-h 10
 	\object
 	
-	-object # East wall
+	-object # East wall 1
 		-type wall
 		-x 15
 		-y 1
 		-w 1
-		-h 10
+		-h 4
 	\object
+
+	-object # East wall 2
+        -type wall
+        -x 15
+        -y 7
+        -w 1
+        -h 4
+    \object
 	
 	-object # Player
 		-type player
@@ -58,16 +66,10 @@
 		-global
 	\object
 
-	-object # Enemy
-	    -type enemy slime
-	    -x 12
-	    -y 8
-	\object
-
 	-object # NPC intro guide
 	    -type npc intro
-	    -x 12
-	    -y 4
+	    -x 5
+	    -y 6
 	\object
 
 \room

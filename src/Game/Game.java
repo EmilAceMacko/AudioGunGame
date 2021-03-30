@@ -33,7 +33,7 @@ public class Game implements Constants {
         roomObjects = new ArrayList[WORLD_WIDTH][WORLD_HEIGHT];
         for (int y = 0; y < WORLD_HEIGHT; y++) {
             for (int x = 0; x < WORLD_WIDTH; x++) {
-                roomObjects[y][x] = new ArrayList<>();
+                roomObjects[x][y] = new ArrayList<>();
             }
         }
         // Global objects:
@@ -53,7 +53,9 @@ public class Game implements Constants {
         mouse = new PVector(0, 0);
 
         // Load levels:
-        loader.loadRoom("test.room");
+        //loader.loadRoom("test.room");
+        loader.loadRoom("R_0_0.room");
+        loader.loadRoom("R_1_0.room");
     }
 
     // Update game code:
@@ -145,5 +147,12 @@ public class Game implements Constants {
     }
     public static double distance(PVector p1, PVector p2) {
         return distance(p1.x, p1.y, p2.x, p2.y);
+    }
+
+    public static PVector getLocalCoordinates(PVector pos) {
+        return PVector.sub(pos, new PVector(Game.camera.roomPos.x * ROOM_WIDTH, Game.camera.roomPos.y * ROOM_HEIGHT));
+    }
+    public static PVector getLocalCoordinates(float x, float y) {
+        return getLocalCoordinates(new PVector(x, y));
     }
 }

@@ -44,16 +44,18 @@ public class Entity extends GameObject implements Constants {
         pos.x += vel.x + push.x; // Move on the X axis.
         colObj = obstacleCollision(); // Check against other objects on the X axis.
         if (colObj != null) { // Solve collision on the X axis:
-            pos.x = (colObj.pos.x + colObj.width / 2.0f) - Math.signum(vel.x) * (width + colObj.width) / 2.0f - width / 2.0f;
+            pos.x = (colObj.pos.x + colObj.width / 2.0f) - Math.signum(vel.x + push.x) * (width + colObj.width) / 2.0f - width / 2.0f;
             vel.x = 0.0f; // Stop horizontal velocity.
+            push.x = 0.0f;
         }
         collided.add(colObj);
 
         pos.y += vel.y + push.y; // Move on the Y axis.
         colObj = obstacleCollision(); // Check against other objects on the Y axis.
         if (colObj != null) { // Solve collision on the Y axis:
-            pos.y = (colObj.pos.y + colObj.height / 2.0f) - Math.signum(vel.y) * (height + colObj.height) / 2.0f - height / 2.0f;
+            pos.y = (colObj.pos.y + colObj.height / 2.0f) - Math.signum(vel.y + push.y) * (height + colObj.height) / 2.0f - height / 2.0f;
             vel.y = 0.0f; // Stop vertical velocity.
+            push.y = 0.0f;
         }
         collided.add(colObj);
 

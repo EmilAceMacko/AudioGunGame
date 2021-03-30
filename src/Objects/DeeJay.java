@@ -13,7 +13,6 @@ public class DeeJay extends Entity {
     public boolean controllable;
     public boolean shooting;
     public float moveSpeed;
-    public float animTime;
     public NPC talkingPartner;
     public boolean talking;
     // DeeJay constants:
@@ -23,6 +22,7 @@ public class DeeJay extends Entity {
 
     public DeeJay() {
         super();
+        animated = true;
         spriteID = SPR_DEEJAY_START;
         // Default values:
         aimPivot = new PVector(8 * SCALE, 8 * SCALE); // The point that the gun pivots around.
@@ -31,7 +31,6 @@ public class DeeJay extends Entity {
         controllable = true; // Whether DeeJay is influenced by player inputs.
         shooting = false; // Whether DeeJay is currently firing the gun.
         moveSpeed = 3.5f; // The maximum speed at which DeeJay can move.
-        animTime = 0.0f; // The timer that animates DeeJay.
         talkingPartner = null; // The NPC that DeeJay is closest to and is "talking" to.
         talking = false; // Whether DeeJay is currently "talking" with an NPC.
     }
@@ -134,11 +133,13 @@ public class DeeJay extends Entity {
     }
 
     public void aim() {
-        aimAngle = (float)Math.atan2(Game.mouse.x - (pos.x + aimPivot.x), Game.mouse.y - (pos.y + aimPivot.y));
+        PVector localPos = Game.getLocalCoordinates(pos);
+        aimAngle = (float)Math.atan2(Game.mouse.x - (localPos.x + aimPivot.x), Game.mouse.y - (localPos.y + aimPivot.y));
     }
 
     public void animate() {
-        int rightSprite = (Game.mouse.x >= pos.x + aimPivot.x) ? 5 : 0; // DeeJay must face right if the cursor is on his right.
+        PVector localPos = Game.getLocalCoordinates(pos);
+        int rightSprite = (Game.mouse.x >= localPos.x + aimPivot.x) ? 5 : 0; // DeeJay must face right if the cursor is on his right.
         // DeeJay sprite:
         if (moving) {
             // Animate walk:
@@ -157,12 +158,13 @@ public class DeeJay extends Entity {
     }
 
     public void display() {
+        PVector localPos = Game.getLocalCoordinates(pos);
         // Draw DeeJay's sprites:
-        Game.drawSprite(spriteID, pos);
+        Game.drawSprite(spriteID, localPos.x, localPos.y);
         // Draw the gun sprite:
-        boolean right = (Game.mouse.x >= pos.x + aimPivot.x);
-        float gunX = pos.x + (2 - (right ? 0 : 4)) *SCALE;
-        float gunY = pos.y + 6*SCALE;
+        boolean right = (Game.mouse.x >= localPos.x + aimPivot.x);
+        float gunX = localPos.x + (2 - (right ? 0 : 4)) * SCALE;
+        float gunY = localPos.y + 6*SCALE;
         float pivX = (6 + (right ? 0 : 4)) * SCALE;
         float pivY = 2 * SCALE;
         float newAimAngle = aimAngle - (float)Math.PI / 2.0f + (right ? 0f : (float)-Math.PI);

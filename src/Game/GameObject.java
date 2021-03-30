@@ -8,6 +8,11 @@ public abstract class GameObject implements Constants {
     public int width, height;
     public boolean solid;
     public int spriteID;
+    public boolean animated;
+    public int animStart;
+    public int animLength;
+    public float animTime;
+    public float animSpeed;
     // Audio Variables:
     public boolean influencedByAudio;
     public int waveInfluence, freqInfluence, audioPatience;
@@ -24,17 +29,28 @@ public abstract class GameObject implements Constants {
         waveInfluence = WAVE_NONE;
         freqInfluence = FREQ_NONE;
         audioPatience = 0;
+        animated = false; // Whether this object is animated.
+        animStart = spriteID; // The starting frame of the animation.
+        animLength = 1; // How many frames there are in the animation.
+        animTime = 0.0f; // The animation timer for this object.
+        animSpeed = 0.5f; // The speed of the animation (1 == 60fps, 0.5 == 30fps, 0.25 == 15fps, etc.)
     }
 
     // Update object code:
     public void update() {
+    }
 
+    // Animate the object:
+    public void animate() {
+        if(animated) {
+            animTime += animSpeed;
+            if (animTime >= animLength) animTime = 0.0f;
+            spriteID = animStart + (int) animTime;
+        }
     }
 
     // Update graphics and draw object:
     public void display() {
-        int xLocal = (int) (pos.x - Game.camera.roomPos.x * ROOM_WIDTH);
-        int yLocal = (int) (pos.y - Game.camera.roomPos.y * ROOM_HEIGHT);
-        if (spriteID > 0) Sketch.processing.image(Game.assetMgr.spriteSheet[spriteID-1], xLocal, yLocal, width, height);
+        if (spriteID > 0) Game.drawSprite(spriteID, Game.getLocalCoordinates(pos));
     }
 }
