@@ -15,20 +15,20 @@ public abstract class GameObject implements Constants {
     public float animSpeed;
     // Audio Variables:
     public boolean influencedByAudio;
-    public int waveInfluence, freqInfluence, audioPatience;
+    public int waveInfluence, freqInfluence, audioPersistence;
 
     // Constructor:
     public GameObject() {
         // Default values:
-        pos = new PVector(0, 0);
-        width = TILE;
-        height = TILE;
-        solid = true;
-        spriteID = 0;
-        influencedByAudio = false;
-        waveInfluence = WAVE_NONE;
-        freqInfluence = FREQ_NONE;
-        audioPatience = 0;
+        pos = new PVector(0, 0); // The position of the object (in pixels).
+        width = TILE; // The width of the object (in pixels).
+        height = TILE; // The height of the object (in pixels).
+        solid = true; // Whether the object is solid.
+        spriteID = 0; // The sprite that the object is drawn with.
+        influencedByAudio = false; // Whether this object can be influenced by audio.
+        waveInfluence = WAVE_NONE; // The waveform that this object can be influenced by.
+        freqInfluence = FREQ_NONE; // The frequency that this object can be influenced by.
+        audioPersistence = 0; // How long the object can persist through the audio influence.
         animated = false; // Whether this object is animated.
         animStart = spriteID; // The starting frame of the animation.
         animLength = 1; // How many frames there are in the animation.
@@ -43,9 +43,9 @@ public abstract class GameObject implements Constants {
     // Animate the object:
     public void animate() {
         if(animated) {
-            animTime += animSpeed;
-            if (animTime >= animLength) animTime = 0.0f;
-            spriteID = animStart + (int) animTime;
+            animTime += animSpeed; // Increment the animation timer.
+            if (animTime >= animLength) animTime = 0.0f; // Reset the animation timer.
+            spriteID = animStart + (int) animTime; // Set the sprite based on the animation timer.
         }
     }
 

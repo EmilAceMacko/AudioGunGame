@@ -17,8 +17,9 @@ public class Game implements Constants {
     public static DialogueBox dialogueBox; // Handles text dialogue.
     // Game Input:
     public static int[] input; // Stores the input states of each button (keyboard and mouse).
-    public static char[] inputMap = {'w', 'a', 's', 'd', ' '}; // The keyboard keys to use for input.
+    public static char[] inputMap = {'w', 'a', 's', 'd', ' ', '1', '2', '3'}; // The keyboard keys to use for input.
     public static PVector mouse; // Stores the coordinte of the cursor.
+    public static int mouseWheel; // Stores how much the mouse wheel has been turned (and what direction).
 
     // Constructor:
     public Game() {
@@ -51,6 +52,7 @@ public class Game implements Constants {
         for (int i = 0; i < B_AMOUNT; i++) input[i] = NONE; // Initialize buttons to "NONE" state.
         // Mouse coordinates:
         mouse = new PVector(0, 0);
+        mouseWheel = 0;
 
         // Load levels:
         //loader.loadRoom("test.room");
@@ -83,6 +85,7 @@ public class Game implements Constants {
             if (input[i] == PRESS) input[i] = HOLD; // If key/button was pressed, change it to hold.
             else if (input[i] == RELEASE) input[i] = NONE; // If key/button was released, change it to none.
         }
+        mouseWheel = 0; // Reset mouse wheel.
     }
 
     // Display game graphics:
@@ -149,10 +152,27 @@ public class Game implements Constants {
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
 
+    // Get a set of coordinates relative to the game camera:
     public static PVector getLocalCoordinates(PVector pos) {
         return PVector.sub(pos, new PVector(Game.camera.roomPos.x * ROOM_WIDTH, Game.camera.roomPos.y * ROOM_HEIGHT));
     }
     public static PVector getLocalCoordinates(float x, float y) {
         return getLocalCoordinates(new PVector(x, y));
+    }
+
+    // Check whether a point is within a rectangle:
+    public static boolean pointInArea(PVector p, float ax, float ay, float aw, float ah) {
+        return pointInArea(p.x, p.y, ax, ay, aw, ah);
+    }
+    public static boolean pointInArea(float px, float py, float ax, float ay, float aw, float ah) {
+        return (px > ax && px < ax + aw && py > ay && py < ay + ah);
+    }
+
+    // Check whether a rectangle is within another rectangle:
+    public static boolean areaInArea(float a1x, float a1y, float a1w, float a1h, float a2x, float a2y, float a2w, float a2h) {
+        return (a1x < a2x + a2w &&
+                a1x + a1w > a2x &&
+                a1y < a2y + a2h &&
+                a1y + a1h > a2y);
     }
 }

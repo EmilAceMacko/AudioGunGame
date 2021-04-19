@@ -1,7 +1,6 @@
 package Game;
 
 import processing.core.PVector;
-
 import java.util.ArrayList;
 
 public class Entity extends GameObject implements Constants {
@@ -107,16 +106,48 @@ public class Entity extends GameObject implements Constants {
     }
 
     // Basic object-on-object collision function(s):
-    public boolean collisionObjectObject(GameObject self, GameObject other) {
+    public boolean collisionObjectObject(GameObject self, GameObject other) { // Given two objects:
         return collisionObjectObject(self, 0, 0, other);
     }
-    public boolean collisionObjectObject(GameObject self, PVector off, GameObject other) {
+    public boolean collisionObjectObject(GameObject self, PVector off, GameObject other) { // Given two objects and an offset for the first object (as PVector):
         return collisionObjectObject(self, off.x, off.y, other);
     }
-    public boolean collisionObjectObject(GameObject self, float xOff, float yOff, GameObject other) {
-        return (xOff + self.pos.x < other.pos.x + other.width &&
-                xOff + self.pos.x + self.width > other.pos.x &&
-                yOff + self.pos.y < other.pos.y + other.height &&
-                yOff + self.pos.y + self.height > other.pos.y);
+    public boolean collisionObjectObject(GameObject self, float xOff, float yOff, GameObject other) { // Given two objects and an offset for the first object (as floats):
+        return Game.areaInArea(xOff + self.pos.x, yOff + self.pos.y, self.width, self.height, other.pos.x, other.pos.y, other.width, other.height);
+    }
+    // Ray-on-object collision function(s):
+    public boolean collisionRayObject(float rayAngle, PVector ray, GameObject other) { // Given ray angle, ray start (as PVector), and an object:
+        // Algorithm: https://stackoverflow.com/questions/99353/how-to-test-if-a-line-segment-intersects-an-axis-aligned-rectange-in-2d
+
+        // Calculate ray vectors:
+        PVector rayVec = new PVector((float) Math.cos(rayAngle) * RAY_LENGTH, (float) Math.sin(rayAngle) * RAY_LENGTH); // The vector between the start and end of the ray.
+        PVector rayEnd = PVector.add(ray, rayVec); // The end-point of the ray:
+        // Get object corners:
+        PVector c1 = other.pos; // Upper left corner of the object.
+        PVector c2 = new PVector(other.pos.x + other.width, other.pos.y + other.height); // Lower right corner of the object.
+        if(DEBUG) {
+            float roomOffX = Game.camera.roomPos.x * ROOM_WIDTH;
+            float roomOffY = Game.camera.roomPos.y * ROOM_HEIGHT;
+            Sketch.processing.stroke(255, 0, 255);
+            Sketch.processing.line(ray.x-roomOffX, ray.y-roomOffY, rayEnd.x-roomOffX, rayEnd.y-roomOffY);
+        }
+        float rayCross = cross(ray, rayEnd);
+        float UL = rayVec.y * c1.x - rayVec.x * c1.y + rayCross; // Upper Left:
+        float UR = rayVec.y * c2.x - rayVec.x * c1.y + rayCross; // Upper Right:
+        float LL = rayVec.y * c1.x - rayVec.x * c2.y + rayCross; // Lower Left:
+        float LR = rayVec.y * c2.x - rayVec.x * c2.y + rayCross; // Lower Right:
+
+        if((UL > 0.0f && UR > 0.0f && LL > 0.0f && LR > 0.0f) || (UL < 0.0f && UR < 0.0f && LL < 0.0f && LR < 0.0f)) { // If all corners are either above or below the ray:
+            return false; // No intersection.
+        } else {
+            return Game.areaInArea(Math.min(ray.x, rayEnd.x), Math.min(ray.y, rayEnd.y), Math.abs(rayVec.x), Math.abs(rayVec.y), c1.x, c1.y, c2.x-c1.x, c2.y-c1.y);
+        }
+    }
+    public boolean collisionRayObject(float rayAngle, float rayX, float rayY, GameObject other) { // Given ray angle, ray start (as floats), and an object:
+        return collisionRayObject(rayAngle, new PVector(rayX, rayY), other);
+    }
+    // 2D Vector cross product:
+    public float cross(PVector a, PVector b) {
+        return b.x * a.y - a.x * b.y;
     }
 }

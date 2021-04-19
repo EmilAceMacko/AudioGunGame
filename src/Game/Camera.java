@@ -54,14 +54,17 @@ public class Camera implements Constants {
         if (DEBUG) {
             Sketch.processing.pushMatrix();
             Sketch.processing.noFill();
-            Sketch.processing.strokeWeight(2);
             Sketch.processing.stroke(0, 255, 128);
             for (GameObject obj : Game.roomObjects[roomX][roomY]) {
+                if(obj.influencedByAudio) Sketch.processing.strokeWeight(4);
+                else Sketch.processing.strokeWeight(2);
                 PVector localPos = Game.getLocalCoordinates(obj.pos);
                 Sketch.processing.rect(localPos.x, localPos.y, obj.width, obj.height);
             }
             Sketch.processing.stroke(255, 128, 0);
             for (GameObject obj : Game.globalObjects) {
+                if(obj.influencedByAudio) Sketch.processing.strokeWeight(4);
+                else Sketch.processing.strokeWeight(2);
                 PVector localPos = Game.getLocalCoordinates(obj.pos);
                 Sketch.processing.rect(localPos.x, localPos.y, obj.width, obj.height);
             }

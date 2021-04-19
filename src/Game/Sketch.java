@@ -3,6 +3,7 @@ package Game;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
+import processing.event.MouseEvent;
 
 public class Sketch extends PApplet implements Constants {
     // Sketch Variables:
@@ -54,6 +55,10 @@ public class Sketch extends PApplet implements Constants {
     public void mouseReleased() {
         if (mouseButton == PConstants.LEFT) Game.input[MB_LEFT] = RELEASE; // Left mouse button is released.
         if (mouseButton == PConstants.RIGHT) Game.input[MB_RIGHT] = RELEASE; // Right mouse button is released.
+    }
+
+    public void mouseWheel(MouseEvent event) {
+        Game.mouseWheel = event.getCount();
     }
 
     public void draw() {

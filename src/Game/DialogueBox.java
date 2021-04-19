@@ -1,7 +1,6 @@
 package Game;
 
 import processing.core.PVector;
-
 import java.util.ArrayList;
 
 public class DialogueBox implements Constants {

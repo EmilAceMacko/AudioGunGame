@@ -140,7 +140,15 @@ public interface Assets {
             "npcs/spr_npc_3_happy_1.png",
             "npcs/spr_npc_3_happy_2.png",
             "npcs/spr_npc_3_mad_1.png",
-            "npcs/spr_npc_3_mad_2.png"
+            "npcs/spr_npc_3_mad_2.png",
+            // MIXER GUI:
+            "gui/spr_background.png", // Spr no. 130
+            "gui/spr_checkbox_01.png",
+            "gui/spr_checkbox_02.png",
+            "gui/spr_gauge_01.png",
+            "gui/spr_gauge_02.png",
+            "gui/spr_slider.png",
+            "gui/spr_window.png"
     };
     // Filenames of the sound effects:
     String[] soundFiles = {};
