@@ -52,12 +52,15 @@ public class Game implements Constants {
         for (int i = 0; i < B_AMOUNT; i++) input[i] = NONE; // Initialize buttons to "NONE" state.
         // Mouse coordinates:
         mouse = new PVector(0, 0);
+        // Mouse wheel:
         mouseWheel = 0;
 
         // Load levels:
         //loader.loadRoom("test.room");
         loader.loadRoom("R_0_0.room");
         loader.loadRoom("R_1_0.room");
+        loader.loadRoom("R_2_0.room");
+        loader.loadRoom("R_3_0.room");
     }
 
     // Update game code:
@@ -68,7 +71,7 @@ public class Game implements Constants {
         mixer.update(); // Update mixer before other objects.
         for(GameObject obj : globalObjects) obj.update(); // Update all global objects (including DeeJay).
         camera.update(); // Update the camera (so it looks at DeeJay's current room).
-        for(GameObject obj : roomObjects[(int)camera.roomPos.x][(int)camera.roomPos.y]) obj.update(); // Update all other objects in the current room.
+        for(GameObject obj : roomObjects[camera.roomX][camera.roomY]) obj.update(); // Update all other objects in the current room.
         dialogueBox.update(); // Update dialogue box.
         // Update inputs (change old press/release states):
         updateInput();
@@ -97,6 +100,14 @@ public class Game implements Constants {
         // Draw all GUI elements:
         dialogueBox.display();
         mixer.display();
+        drawCursor();
+    }
+    // Display the cursor:
+    public static void drawCursor() {
+        // Set cursor sprite and offset based on whether the cursor is over the GUI area:
+        int cursorSprite = (mouse.y >= ROOM_HEIGHT) ? SPR_GUI_CURSOR_1 : SPR_GUI_CURSOR_2;
+        int cursorOffset = (mouse.y >= ROOM_HEIGHT) ? 0 : 4 * SCALE;
+        drawSprite(cursorSprite, mouse.x - cursorOffset, mouse.y - cursorOffset);
     }
 
     /*
@@ -154,7 +165,7 @@ public class Game implements Constants {
 
     // Get a set of coordinates relative to the game camera:
     public static PVector getLocalCoordinates(PVector pos) {
-        return PVector.sub(pos, new PVector(Game.camera.roomPos.x * ROOM_WIDTH, Game.camera.roomPos.y * ROOM_HEIGHT));
+        return PVector.sub(pos, new PVector(Game.camera.roomX * ROOM_WIDTH, Game.camera.roomY * ROOM_HEIGHT));
     }
     public static PVector getLocalCoordinates(float x, float y) {
         return getLocalCoordinates(new PVector(x, y));
@@ -174,5 +185,24 @@ public class Game implements Constants {
                 a1x + a1w > a2x &&
                 a1y < a2y + a2h &&
                 a1y + a1h > a2y);
+    }
+
+    // Get a list of specific objects in the current room:
+    // * This function takes a class of some type "T" and stores it in the variable "C".
+    //   Then, it runs through the list of game objects and lists the ones that have are of the same class as "C".
+    public static <T> ArrayList<T> listRoomObjects(Class<T> C) {
+        ArrayList<T> list = new ArrayList<>();
+        for(GameObject obj : roomObjects[camera.roomX][camera.roomY]) {
+            if(obj.getClass() == C) list.add(C.cast(obj));
+        }
+        return list;
+    }
+    // Get a list of specific global objects:
+    public static <T> ArrayList<T> listGlobalObjects(Class<T> C) {
+        ArrayList<T> list = new ArrayList<>();
+        for(GameObject obj : globalObjects) {
+            if(obj.getClass() == C) list.add(C.cast(obj));
+        }
+        return list;
     }
 }

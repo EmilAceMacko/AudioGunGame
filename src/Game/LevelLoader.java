@@ -1,14 +1,15 @@
 package Game;
 
 import Objects.DeeJay;
-import Objects.Enemies.Slime;
-import Objects.NPCs.NPC_IntroGuide;
+import Objects.NPCs.*;
 import Objects.Wall;
+import Objects.Enemies.Slime;
+import Objects.Doors.Tree;
+import Objects.Doors.Gate;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class LevelLoader implements Constants {
 
@@ -82,6 +83,17 @@ public class LevelLoader implements Constants {
                                                 case "npc" -> {
                                                     switch(args[2]) {
                                                         case "intro" -> currentObject = new NPC_IntroGuide();
+                                                        case "treeperson" -> currentObject = new NPC_TreePerson();
+                                                        case "farmer" -> currentObject = new NPC_Farmer();
+                                                        case "neighbor1" -> currentObject = new NPC_Neighbor1();
+                                                        case "neighbor2" -> currentObject = new NPC_Neighbor2();
+                                                        case "oldman" -> currentObject = new NPC_Oldman();
+                                                    }
+                                                }
+                                                case "door" -> {
+                                                    switch(args[2]) {
+                                                        case "tree" -> currentObject = new Tree();
+                                                        case "gate" -> currentObject = new Gate();
                                                     }
                                                 }
                                             }
@@ -93,6 +105,17 @@ public class LevelLoader implements Constants {
                                             case "-w" -> currentObject.width = Integer.parseInt(args[1]) * TILE;
                                             case "-h" -> currentObject.height = Integer.parseInt(args[1]) * TILE;
                                             case "-global" -> globalObject = true;
+                                        }
+                                        if (currentObject instanceof Slime) { // If the object is a Slime:
+                                            Slime slimeObject = (Slime)currentObject; // Treat the object like a Slime.
+                                            switch (args[0]) { // Slime parameters:
+                                                case "-rx" -> slimeObject.roamAreaPos.x = Float.parseFloat(args[1]) * TILE + roomX * ROOM_WIDTH;
+                                                case "-ry" -> slimeObject.roamAreaPos.y = Float.parseFloat(args[1]) * TILE + roomY * ROOM_HEIGHT;
+                                                case "-rw" -> slimeObject.roamAreaWidth = Integer.parseInt(args[1]) * TILE;
+                                                case "-rh" -> slimeObject.roamAreaHeight = Integer.parseInt(args[1]) * TILE;
+                                                case "-rsx" -> slimeObject.roamSpeed.x = Float.parseFloat(args[1]);
+                                                case "-rsy" -> slimeObject.roamSpeed.y = Float.parseFloat(args[1]);
+                                            }
                                         }
                                     }
                                 } else { // Not reading tile or object data:

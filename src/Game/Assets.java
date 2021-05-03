@@ -122,33 +122,54 @@ public interface Assets {
             "enemies/slime/spr_slime_4.png",
             "enemies/slime/spr_slime_5.png", // Spr no. 110
             "enemies/slime/spr_slime_6.png",
+            "enemies/slime/spr_slime_7.png",
+            "enemies/slime/spr_slime_8.png",
+            "enemies/slime/spr_slime_9.png",
+            "enemies/slime/spr_slime_10.png",
+            "enemies/slime/spr_slime_11.png",
+            "enemies/slime/spr_slime_12.png",
             // NPCs:
             "npcs/spr_npc_1_idle_1.png",
             "npcs/spr_npc_1_idle_2.png",
-            "npcs/spr_npc_1_happy_1.png",
+            "npcs/spr_npc_1_happy_1.png", // Spr no. 120
             "npcs/spr_npc_1_happy_2.png",
             "npcs/spr_npc_1_mad_1.png",
             "npcs/spr_npc_1_mad_2.png",
             "npcs/spr_npc_2_idle_1.png",
             "npcs/spr_npc_2_idle_2.png",
-            "npcs/spr_npc_2_happy_1.png", // Spr no. 120
+            "npcs/spr_npc_2_happy_1.png",
             "npcs/spr_npc_2_happy_2.png",
             "npcs/spr_npc_2_mad_1.png",
             "npcs/spr_npc_2_mad_2.png",
-            "npcs/spr_npc_3_idle_1.png",
+            "npcs/spr_npc_3_idle_1.png", // Spr no. 130
             "npcs/spr_npc_3_idle_2.png",
             "npcs/spr_npc_3_happy_1.png",
             "npcs/spr_npc_3_happy_2.png",
             "npcs/spr_npc_3_mad_1.png",
             "npcs/spr_npc_3_mad_2.png",
             // MIXER GUI:
-            "gui/spr_background.png", // Spr no. 130
+            "gui/spr_background.png",
             "gui/spr_checkbox_01.png",
             "gui/spr_checkbox_02.png",
             "gui/spr_gauge_01.png",
-            "gui/spr_gauge_02.png",
+            "gui/spr_gauge_02.png", // Spr no. 140
             "gui/spr_slider.png",
-            "gui/spr_window.png"
+            "gui/spr_window.png",
+            // DOOR - TREE:
+            "doors/spr_tree_1.png",
+            "doors/spr_tree_2.png",
+            // CURSOR:
+            "gui/spr_cursor_1.png",
+            "gui/spr_cursor_2.png",
+            // DOOR - GATE:
+            "doors/spr_gate_1.png",
+            "doors/spr_gate_2.png",
+            // DIALOGUE CONTEXT GUI:
+            "gui/spr_dialogue_next.png",
+            "gui/spr_dialogue_last.png", // Spr no. 150
+            // NPC OLD MAN:
+            "npcs/spr_npc_4_idle_1.png",
+            "npcs/spr_npc_4_idle_2.png"
     };
     // Filenames of the sound effects:
     String[] soundFiles = {};

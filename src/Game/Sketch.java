@@ -25,6 +25,7 @@ public class Sketch extends PApplet implements Constants {
     public void setup() {
         // Game setup:
         processing = this; // Create a link to the processing library.
+        noCursor();
         Game.init();
     }
 

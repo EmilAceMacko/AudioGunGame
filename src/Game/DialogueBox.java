@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class DialogueBox implements Constants {
     // Dialogue box variables:
     public PVector pos;
-    public boolean active, writing, open, doneWriting, doneAll;
+    public boolean active, writing, open, doneWriting, doneAll, upper;
     public String[] dialogue;
     public int[] charWidth;
     public int boxNumber, charIndex, xOff, line;
@@ -16,6 +16,9 @@ public class DialogueBox implements Constants {
     public static final float BOX_ANIM_SPEED = 1.0f / 10.0f; // How fast the box opens and closes.
     public static final int BOX_WIDTH = WINDOW_WIDTH - TILE*2; // the total width of the dialogue box.
     public static final int BOX_HEIGHT = 48 * SCALE; // The total height of the dialogue box.
+    public static final int BOX_X = TILE;
+    public static final int BOX_Y_UPPER = TILE;
+    public static final int BOX_Y_LOWER = ROOM_HEIGHT - BOX_HEIGHT - TILE;
     public static final int PADDING_TOP = 8 * SCALE; // How much space is between the top (and bottom) of the box and the text.
     public static final int PADDING_LEFT = 16 * SCALE; // How much space is between the left (and right) of the box and the text.
     public static final int CHAR_HEIGHT = 8 * SCALE; // The height of the characters
@@ -28,15 +31,16 @@ public class DialogueBox implements Constants {
     // Constructor:
     DialogueBox() {
         // Default values:
-        pos = new PVector(TILE, TILE); // The position of the dialogue box, from its upper left corner.
+        pos = new PVector(BOX_X, BOX_Y_UPPER); // The position of the dialogue box, from its upper left corner.
         active = false; // Whether the box is active (e.g. in use).
         writing = false; // Whether the box is currently writing text to the screen.
         open = false; // Whether or not the box should open up.
         doneWriting = false; // Whether or not the box has finished writing the current dialogue.
         doneAll = false; // Whether or not the box has finished all the dialogue and should close itself.
+        upper = true; // Whether the box is sitting at the top section of the screen (false means it sits at the bottom).
         boxNumber = 0; // Which dialogue string is currently being written/displayed.
         charIndex = 0; // The index of the newest written character in the current dialogue string.
-        boxAnim = 0.0f; // The animation value for the box's open/close animation (0.0 - 1.0).
+        boxAnim = 0f; // The animation value for the box's open/close animation (0.0 - 1.0).
         chars = new ArrayList<>(); // The list of characters that have been written to the dialogue box.
         xOff = 0; // The horizontal position of the currently written characters (in pixels).
         line = 0; // The line that is currently being written to.
@@ -53,19 +57,23 @@ public class DialogueBox implements Constants {
             // Box open/close animation:
             if (open) { // Open:
                 boxAnim += BOX_ANIM_SPEED;
-                if (boxAnim >= 1.0f) {
-                    boxAnim = 1.0f; // Cap the animation value at 1.
+                if (boxAnim >= 1f) {
+                    boxAnim = 1f; // Cap the animation value at 1.
                 }
             } else { // Close:
                 boxAnim -= BOX_ANIM_SPEED;
-                if (boxAnim <= 0.0f) {
-                    boxAnim = 0.0f; // Cap the animation value at 0.
+                if (boxAnim <= 0f) {
+                    boxAnim = 0f; // Cap the animation value at 0.
                     resetFull(); // Reset all box variables.
                 }
             }
 
+            // Set position:
+            if(upper) pos.y = BOX_Y_UPPER;
+            else pos.y = BOX_Y_LOWER;
+
             // Box dialogue writing:
-            if (writing && boxAnim >= 1.0f) {
+            if (writing && boxAnim >= 1f) {
                 // Write the dialogue:
 
                 // If there are more chars to be written for the current dialogue:
@@ -120,7 +128,7 @@ public class DialogueBox implements Constants {
                     }
                 }
                 // If the dialogue box has fully closed:
-                if (!open && boxAnim <= 0.0f) {
+                if (!open && boxAnim <= 0f) {
                     resetFull();
                 }
             }
@@ -128,14 +136,23 @@ public class DialogueBox implements Constants {
     }
 
     public void display() {
-        if (active && boxAnim > 0.0f) { // If box is active and not fully closed:
+        if (active && boxAnim > 0f) { // If box is active and not fully closed:
             // Draw the dialogue box (with open/close animation):
             Sketch.processing.fill(0); // Black filling.
             Sketch.processing.noStroke();
-            Sketch.processing.rect(pos.x + (1.0f - boxAnim) * BOX_WIDTH / 2.0f, pos.y, BOX_WIDTH * boxAnim, BOX_HEIGHT);
-            if (boxAnim >= 1.0f) { // If box is fully open:
+            Sketch.processing.rect(pos.x + (1f - boxAnim) * BOX_WIDTH / 2f, pos.y, BOX_WIDTH * boxAnim, BOX_HEIGHT);
+            if (boxAnim >= 1f) { // If box is fully open:
                 // Draw each character in the dialogue:
                 for (BoxChar c : chars) c.display();
+                // Draw the context button:
+                if (doneWriting) {
+                    // If this was not the final dialogue string:
+                    if (boxNumber < dialogue.length - 1) {
+                        Game.drawSprite(SPR_GUI_DIALOGUE_NEXT, pos.x + BOX_WIDTH - TILE / 2f, pos.y + BOX_HEIGHT - TILE / 2f);
+                    } else { // This was the final dialogue string:
+                        Game.drawSprite(SPR_GUI_DIALOGUE_LAST, pos.x + BOX_WIDTH - TILE / 2f, pos.y + BOX_HEIGHT - TILE / 2f);
+                    }
+                }
             }
         }
     }

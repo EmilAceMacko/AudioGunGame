@@ -1,0 +1,66 @@
+-room
+	-x 3
+	-y 0
+
+	-tiles
+		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
+		8	7	7	7	7	7	7	7	7	7	7	7	7	7	7	8
+		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
+		7	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
+	\tiles
+
+	-object # North wall
+		-type wall
+		-x 0
+		-y 0
+		-w 16
+		-h 1
+	\object
+
+	-object # South wall
+		-type wall
+		-x 0
+		-y 11
+		-w 16
+		-h 1
+	\object
+
+	-object # West wall 1
+		-type wall
+		-x -1
+		-y 1
+		-w 2
+		-h 6
+	\object
+
+	-object # West wall 2
+        -type wall
+        -x -1
+        -y 9
+        -w 2
+        -h 2
+    \object
+
+	-object # East wall
+        -type wall
+        -x 15
+        -y 1
+        -w 1
+        -h 10
+    \object
+
+    -object # NPC Old man
+        -type npc oldman
+        -x 12
+        -y 8
+    \object
+
+\room
