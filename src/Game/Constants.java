@@ -23,6 +23,7 @@ public interface Constants {
     int FREQ_HIGH = 3;
 
     // Screen variables:
+    int FPS = 60; // The amount of frames per second.
     int SCALE = 3; // How much the pixel graphics are upscaled.
     int WINDOW_WIDTH = 768; // In pixels.
     int WINDOW_HEIGHT = 720; // In pixels.
@@ -90,4 +91,12 @@ public interface Constants {
     int SPR_GUI_DIALOGUE_NEXT = 149;
     int SPR_GUI_DIALOGUE_LAST = 150;
     int SPR_NPC_4_IDLE_START = 151;
+    int SPR_GUI_COIN_START = 153;
+    int SPR_GUI_COIN_LENGTH = 6;
+    int SPR_GUI_COIN_DIGIT_START = 159;
+    int SPR_GUI_COIN_DIGIT_LENGTH = 10;
+
+    // ---------------------------- Audio index markers:
+
+    int SND_MUSIC = 0;
 }

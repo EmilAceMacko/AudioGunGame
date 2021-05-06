@@ -186,11 +186,11 @@ public class DeeJay extends Entity {
                         target.isHitByAudio = false;
                         // Set new target:
                         target = closestObj;
-                        // Affect new target:
-                        target.isHitByAudio = true;
-                        target.waveHitting = Game.mixer.waveform;
-                        target.freqHitting = Game.mixer.getFrequencyScale();
                     }
+                    // Affect target:
+                    target.isHitByAudio = true;
+                    target.waveHitting = Game.mixer.waveform;
+                    target.freqHitting = Game.mixer.getFrequencyScale();
                 } else {
                     if (closestObj != null) {
                         // Set new target:
@@ -272,10 +272,10 @@ public class DeeJay extends Entity {
         float pivX = (6 + (right ? 0 : 4)) * SCALE;
         float pivY = 2 * SCALE;
         // Add gun shake:
-        gunX -= (float)Math.sin(aimAngle) * animShoot;
-        gunY -= (float)Math.cos(aimAngle) * animShoot;
+        gunX -= (float) Math.sin(aimAngle) * animShoot;
+        gunY -= (float) Math.cos(aimAngle) * animShoot;
         // Mirror the aim angle depending on the facing direction:
-        float newAimAngle = aimAngle - (float)Math.PI / 2.0f + (right ? 0f : (float)-Math.PI);
+        float newAimAngle = aimAngle - (float) Math.PI / 2.0f + (right ? 0f : (float) -Math.PI);
         // Draw the gun sprite:
         Game.drawSpriteRotated(gunSpriteID, gunX, gunY, newAimAngle, pivX, pivY);
 
@@ -285,10 +285,10 @@ public class DeeJay extends Entity {
             float roomOffY = Game.camera.roomY * ROOM_HEIGHT;
             Sketch.processing.stroke(255, 0, 255);
             Sketch.processing.line(
-                    pos.x + aimPivot.x - roomOffX,
-                    pos.y + aimPivot.y - roomOffY,
-                    pos.x + aimPivot.x + targetCoord.x - roomOffX,
-                    pos.y + aimPivot.y + targetCoord.y - roomOffY
+                pos.x + aimPivot.x - roomOffX,
+                pos.y + aimPivot.y - roomOffY,
+                pos.x + aimPivot.x + targetCoord.x - roomOffX,
+                pos.y + aimPivot.y + targetCoord.y - roomOffY
             );
         }
     }

@@ -9,7 +9,7 @@ public abstract class GameObject implements Constants {
     public int spriteID;
     public int animStart, animLength;
     public float animTime, animSpeed;
-    public boolean solid, animated, isHitByAudio;
+    public boolean solid, animated, isHitByAudio, dead;
     public int waveInfluence, freqInfluence, waveHitting, freqHitting, audioPersistence, audioPersistenceMax;
     // Constructor:
     public GameObject() {
@@ -26,6 +26,7 @@ public abstract class GameObject implements Constants {
         solid = true; // Whether the object is solid.
         animated = false; // Whether this object is animated.
         isHitByAudio = false; // Whether the object is currently being hit with audio.
+        dead = false; // Whether the object should be removed from the game.
         waveInfluence = WAVE_NONE; // The waveform that this object can be influenced by.
         freqInfluence = FREQ_NONE; // The frequency that this object can be influenced by.
         waveHitting = WAVE_NONE; // The waveform that is currently hitting this object (if influenced by audio).
@@ -36,6 +37,10 @@ public abstract class GameObject implements Constants {
 
     // Update object code:
     public void update() {
+        audioPersist();
+    }
+
+    public void audioPersist() {
         // If currently being hit by audio:
         if (isHitByAudio) {
             // Compare to specific waveforms/frequencies:

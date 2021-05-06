@@ -1,12 +1,8 @@
 package Game;
 
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
-import processing.sound.SinOsc;
-import processing.sound.SqrOsc;
-import processing.sound.SawOsc;
-import processing.sound.LowPass;
+import processing.sound.*;
 
 public class Mixer implements Constants {
     // Mixer variables:
@@ -25,6 +21,7 @@ public class Mixer implements Constants {
     public float waveScale;
     public float waveCycle;
     public float audioDist;
+    public SoundFile music;
     // Mixer constants:
     public static final int GUI_Y = ROOM_HEIGHT; // The y-coordinate of the top of the mixer.
     public static final int CHECKBOX_X = 146 * SCALE; // The starting X of the leftmost checkbox.
@@ -39,15 +36,16 @@ public class Mixer implements Constants {
     public static final int SLIDER_HEIGHT = 12 * SCALE; // The height of the frequency slider.
     public static final int FREQ_MIN = 110; // The mixer's lowest frequency.
     public static final int FREQ_MAX = 880; // The mixer's highest frequency.
-    public static final int VOLUME_SINE = 20; // Volume of the oscillators (from 0 to 100).
-    public static final int VOLUME_SQUARE = 10; // Volume of the oscillators (from 0 to 100).
-    public static final int VOLUME_SAW = 10; // Volume of the oscillators (from 0 to 100).
+    public static final float VOLUME_SINE = 0.2f; // Volume of the oscillators (from 0 to 1).
+    public static final float VOLUME_SQUARE = 0.1f; // Volume of the oscillators (from 0 to 1).
+    public static final float VOLUME_SAW = 0.1f; // Volume of the oscillators (from 0 to 1).
     public static final int WINDOW_OUTER_X = 3 * SCALE; // The X coordinate of the outer (left) edge of the waveform window.
     public static final int WINDOW_OUTER_Y = 3 * SCALE + GUI_Y; // The Y coordinate of the outer (top) edge of the waveform window.
     public static final int WINDOW_INNER_X = 4 * SCALE; // The X coordinate of the inner (left) edge of the waveform window.
     public static final int WINDOW_INNER_Y = 4 * SCALE + GUI_Y; // The Y coordinate of the inner (top) edge of the waveform window.
     public static final int WINDOW_INNER_WIDTH = 56 * SCALE; // The width inside the waveform window.
     public static final int WINDOW_INNER_HEIGHT = 40 * SCALE; // The height inside the waveform window.
+    public static final float VOLUME_MUSIC = 0.05f; // The volume of the background music (from 0 to 1).
     // Constructor:
     Mixer() {
         // Default values:
@@ -63,13 +61,18 @@ public class Mixer implements Constants {
         sinOsc = new SinOsc(Sketch.processing); // Sine Oscillator.
         sqrOsc = new SqrOsc(Sketch.processing); // Square Oscillator.
         sawOsc = new SawOsc(Sketch.processing); // Saw Oscillator.
-        lowPass = new LowPass(Sketch.processing); // Reverb Effect.
+        lowPass = new LowPass(Sketch.processing); // Low-Pass Effect.
         playing = false; // Whether the oscillator(s) should be playing.
         playingOsc = WAVE_NONE; // Which oscillator is currently playing.
         samples = new float[WINDOW_INNER_WIDTH]; // The array carrying each audio sample to display in the waveform window.
         waveScale = 100; // The horizontal scale of the waveform (in Hz).
         waveCycle = 0; // Carries the wave-cycle offset for each frame.
         audioDist = 0; // The distance between the audio gun and the target that gets hit by the audio ray.
+        music = Game.getSound(SND_MUSIC); // The music to play in the background.
+
+        // Play the music:
+        music.amp(VOLUME_MUSIC); // Set volume.
+        music.loop(); // Play and loop.
     }
 
     public void update() {
@@ -114,7 +117,7 @@ public class Mixer implements Constants {
                 if (sliderPos < 0.0f) sliderPos = 0.0f;
                 else if (sliderPos > 1.0f) sliderPos = 1.0f;
                 // Set frequency based on the slider position:
-                frequency = FREQ_MIN + (int)((FREQ_MAX-FREQ_MIN) * sliderPos);
+                frequency = FREQ_MIN + (int) ((FREQ_MAX - FREQ_MIN) * sliderPos);
             }
         } else { // Slider is not grabbed:
             if (Game.pointInArea(Game.mouse, GAUGE_X + sliderPos * GAUGE_WIDTH - SLIDER_WIDTH / 2f, SLIDER_Y, SLIDER_WIDTH, SLIDER_HEIGHT)) { // If the mouse is above the slider:
@@ -128,12 +131,12 @@ public class Mixer implements Constants {
         if (!sliderGrabbed) {
             if (Game.mouseWheel != 0) {
                 // Slide the slider according to the mouse wheel:
-                sliderPos += Game.mouseWheel * 0.05;
+                sliderPos -= Game.mouseWheel * 0.05;
                 // Constrain slider:
                 if (sliderPos < 0.0f) sliderPos = 0.0f;
                 else if (sliderPos > 1.0f) sliderPos = 1.0f;
                 // Set frequency based on the slider position:
-                frequency = FREQ_MIN + (int)((FREQ_MAX-FREQ_MIN) * sliderPos);
+                frequency = FREQ_MIN + (int) ((FREQ_MAX - FREQ_MIN) * sliderPos);
             }
         }
         // Oscillators:
@@ -175,24 +178,24 @@ public class Mixer implements Constants {
             switch (waveform) {
                 case (WAVE_SINE) -> {
                     sinOsc.freq(frequency);
-                    sinOsc.amp(VOLUME_SINE / 100f);
+                    sinOsc.amp(VOLUME_SINE);
                 }
                 case (WAVE_SQUARE) -> {
                     sqrOsc.freq(frequency);
-                    sqrOsc.amp(VOLUME_SQUARE / 100f);
+                    sqrOsc.amp(VOLUME_SQUARE);
                 }
                 case (WAVE_SAW) -> {
                     sawOsc.freq(frequency);
-                    sawOsc.amp(VOLUME_SAW / 100f);
+                    sawOsc.amp(VOLUME_SAW);
                 }
             }
             float fac = audioDist / RAY_LENGTH;
-            lowPass.freq(FREQ_MAX*2f + fac * (FREQ_MIN - FREQ_MAX)*2f);
+            lowPass.freq(FREQ_MAX * 2f + fac * (FREQ_MIN - FREQ_MAX) * 2f);
         }
     }
     // Stop oscillators (if one is playing):
     public void stopOscillators() {
-        if(playingOsc != WAVE_NONE) {
+        if (playingOsc != WAVE_NONE) {
             lowPass.stop();
             switch (playingOsc) {
                 case (WAVE_SINE) -> sinOsc.stop();
@@ -205,8 +208,8 @@ public class Mixer implements Constants {
     // Get the low/mid/high representation of the current frequency:
     public int getFrequencyScale() {
         int freqSpectrum = FREQ_MAX - FREQ_MIN;
-        if (frequency < freqSpectrum/4) return FREQ_LOW;
-        else if(frequency < 3*freqSpectrum/4) return FREQ_MID;
+        if (frequency < freqSpectrum / 4) return FREQ_LOW;
+        else if(frequency < 3 * freqSpectrum / 4) return FREQ_MID;
         else return FREQ_HIGH;
     }
 
@@ -249,7 +252,7 @@ public class Mixer implements Constants {
                 // Generate waveform samples mathematically:
                 switch (waveform) {
                     case (WAVE_SINE) ->     samples[i] = (float) Math.sin(waveCycle / freq * 2 * Math.PI);
-                    case (WAVE_SQUARE) ->   samples[i] = (waveCycle < freq/2) ? 1.0f : -1.0f;
+                    case (WAVE_SQUARE) ->   samples[i] = (waveCycle < freq / 2) ? 1.0f : -1.0f;
                     case (WAVE_SAW) ->      samples[i] = 1 - 2 * waveCycle / freq;
                 }
                 waveCycle += 1.0f;
@@ -258,7 +261,7 @@ public class Mixer implements Constants {
             // Draw samples as a point-line:
             Sketch.processing.beginShape();
             for (int i = 0; i < samples.length; i++) {
-                Sketch.processing.vertex(x + i, y + samples[i] * 2*h/3);
+                Sketch.processing.vertex(x + i, y + samples[i] * 2 * h / 3);
             }
             Sketch.processing.endShape();
         } else {

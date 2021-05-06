@@ -1,18 +1,21 @@
 package Game;
 
+import Objects.Coin;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.sound.SoundFile;
+
 import java.util.ArrayList;
 
 public class Game implements Constants {
-    // Game data:
+    // Game Data:
     public static Byte[][][][] tileData; // [roomX][roomY][tileX][tileY]: Which tiles to draw in each room.
     public static ArrayList<GameObject>[][] roomObjects; // [roomX][roomY] <[objIndex]>: A 2D array, filled with ArrayLists.
     public static ArrayList<GameObject> globalObjects; // <[objIndex]>: A regular ArrayList.
-    // Game components:
+    // Game Components:
     public static AssetManager assetMgr; // Manages the game's assets (graphics and audio).
     public static LevelLoader loader; // Loads the game's levels into memory from the room files.
-    public static Mixer mixer; // Handles the Mixer GUI and Mixer states.
+    public static Mixer mixer; // Handles the Mixer GUI and synthetic audio.
     public static Camera camera; // Handles area-dependant drawing of graphics.
     public static DialogueBox dialogueBox; // Handles text dialogue.
     // Game Input:
@@ -20,10 +23,11 @@ public class Game implements Constants {
     public static char[] inputMap = {'w', 'a', 's', 'd', ' ', '1', '2', '3'}; // The keyboard keys to use for input.
     public static PVector mouse; // Stores the coordinte of the cursor.
     public static int mouseWheel; // Stores how much the mouse wheel has been turned (and what direction).
-
+    // Game Variables:
+    public static int coin; // The amount of coins that the player has recieved for helping NPCs.
+    public static int time; // The timer variable that always increases (counting in frames).
     // Constructor:
     public Game() {
-        init();
     }
 
     public static void init() {
@@ -34,7 +38,7 @@ public class Game implements Constants {
         roomObjects = new ArrayList[WORLD_WIDTH][WORLD_HEIGHT];
         for (int y = 0; y < WORLD_HEIGHT; y++) {
             for (int x = 0; x < WORLD_WIDTH; x++) {
-                roomObjects[x][y] = new ArrayList<>();
+                roomObjects[x][y] = new ArrayList<>(); // Create an empty ArrayList for each room.
             }
         }
         // Global objects:
@@ -54,6 +58,10 @@ public class Game implements Constants {
         mouse = new PVector(0, 0);
         // Mouse wheel:
         mouseWheel = 0;
+
+        // Game variables:
+        coin = 0; // Coin counter.
+        time = 0; // Timer.
 
         // Load levels:
         //loader.loadRoom("test.room");
@@ -75,6 +83,12 @@ public class Game implements Constants {
         dialogueBox.update(); // Update dialogue box.
         // Update inputs (change old press/release states):
         updateInput();
+        // Increment time:
+        time++;
+
+        // Remove dead objects:
+        globalObjects.removeIf(gameObject -> gameObject.dead);
+        roomObjects[camera.roomX][camera.roomY].removeIf(gameObject -> gameObject.dead);
     }
 
     public static void updateMouse() {
@@ -129,6 +143,24 @@ public class Game implements Constants {
         System.out.println("GAME: " + msg);
     }
 
+    // Get the time in the format HH:MM:SS :
+    public static String getTimeFormatted() {
+        int seconds = (time / FPS) % 60;
+        int minutes = (time / (FPS * 60)) % 60;
+        int hours = time / (FPS * 60 * 60);
+        return hours + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
+    }
+
+    // Spawn a coin at (x,y):
+    public static void giveCoin(PVector pos) {
+        Coin newCoin = new Coin(pos);
+        Game.globalObjects.add(newCoin);
+        // TODO - Play coin spawn sound!
+    }
+    public static void giveCoin(float x, float y) {
+        giveCoin(new PVector(x, y));
+    }
+
     // Easily draw a sprite:
     public static void drawSprite(int spriteID, float x, float y) {
         PImage spr = assetMgr.spriteSheet[spriteID]; // Get the sprite.
@@ -147,6 +179,11 @@ public class Game implements Constants {
     }
     public static void drawSpriteRotated(int spriteID, PVector pos, float rot, PVector pivot) {
         drawSpriteRotated(spriteID, pos.x, pos.y, rot, pivot.x, pivot.y);
+    }
+
+    // Get a specific sound file:
+    public static SoundFile getSound(int index) {
+        return assetMgr.soundList[index];
     }
 
     // Get the distance between two points:

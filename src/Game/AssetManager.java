@@ -39,7 +39,7 @@ public class AssetManager implements Assets, Constants {
         soundCount = soundFiles.length;
         soundList = new SoundFile[soundCount];
         for(int i = 0; i < soundCount; i++) {
-            soundList[i] = new SoundFile(Sketch.processing, soundFiles[i]); // TODO - Keep an eye on this, "Sketch.processing" may need to just be "Sketch" somehow!
+            soundList[i] = new SoundFile(Sketch.processing, audioDir + soundFiles[i]);
         }
     }
 }

@@ -29,6 +29,8 @@ public class NPC_TreePerson extends NPC {
             if (list.get(0).open) {
                 affected = true;
                 animStart = SPR_NPC_2_HAPPY_START;
+                // Give coin:
+                Game.giveCoin(pos.copy());
             }
         }
         // Run default NPC code:

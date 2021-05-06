@@ -2,7 +2,6 @@ package Game;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.PVector;
 import processing.event.MouseEvent;
 
 public class Sketch extends PApplet implements Constants {
@@ -21,12 +20,12 @@ public class Sketch extends PApplet implements Constants {
         size(WINDOW_WIDTH, WINDOW_HEIGHT);
         smooth(0);
     }
-
     public void setup() {
         // Game setup:
         processing = this; // Create a link to the processing library.
-        noCursor();
-        Game.init();
+        noCursor(); // Make the default cursor invisible.
+        frameRate(FPS); // Set frames per second.
+        Game.init(); // Initiate game.
     }
 
     public void keyPressed() {
@@ -38,7 +37,6 @@ public class Sketch extends PApplet implements Constants {
             if (Game.input[i] != HOLD && newKey == Game.inputMap[i]) Game.input[i] = PRESS; // Key is pressed.
         }
     }
-
     public void keyReleased() {
         // Making sure that we can read Uppercase letters - Changes it to a string and then back to a char:
         char newKey = Character.toString(key).toLowerCase().charAt(0);
@@ -52,7 +50,6 @@ public class Sketch extends PApplet implements Constants {
         if ((Game.input[MB_LEFT] & HOLD) != HOLD && mouseButton == PConstants.LEFT) Game.input[MB_LEFT] = PRESS; // Left mouse button is pressed.
         if ((Game.input[MB_RIGHT] & HOLD) != HOLD && mouseButton == PConstants.RIGHT) Game.input[MB_RIGHT] = PRESS; // Right mouse button is pressed.
     }
-
     public void mouseReleased() {
         if (mouseButton == PConstants.LEFT) Game.input[MB_LEFT] = RELEASE; // Left mouse button is released.
         if (mouseButton == PConstants.RIGHT) Game.input[MB_RIGHT] = RELEASE; // Right mouse button is released.

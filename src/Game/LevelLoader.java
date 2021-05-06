@@ -1,18 +1,15 @@
 package Game;
 
+import Objects.Wall;
 import Objects.DeeJay;
 import Objects.NPCs.*;
-import Objects.Wall;
-import Objects.Enemies.Slime;
-import Objects.Doors.Tree;
-import Objects.Doors.Gate;
-
+import Objects.Enemies.*;
+import Objects.Doors.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class LevelLoader implements Constants {
-
     // Constructor:
     public LevelLoader() {
 
@@ -42,7 +39,7 @@ public class LevelLoader implements Constants {
             // Loop through each line until the end of the room file:
             while (line != null && !done) {
                 line = line.replace("\t", " ").replaceAll("\\s+", " "); // Replace tabs with spaces and remove consecutive spaces.
-                if(!line.equals("")) { // If not a blank line:
+                if (!line.equals("")) { // If not a blank line:
                     for (int i = 0; i < line.length(); i++) { // Loop through all chars in this line:
                         if (line.charAt(i) != ' ') { // If char is not a space.
                             String[] args = line.substring(i).split(" "); // Split the line into separate strings, with spaces as separators.
@@ -53,7 +50,6 @@ public class LevelLoader implements Constants {
                                     } else {
                                         for (String arg : args) { // Loop through each tile in the current row and apply it to the current room:
                                             Game.tileData[roomX][roomY][tileX][tileY] = Byte.parseByte(arg);
-                                            //Game.console("ROOM: Read tile at " + tileX + ", " + tileY);
                                             tileX++; // Next tile.
                                         }
                                         tileX = 0;

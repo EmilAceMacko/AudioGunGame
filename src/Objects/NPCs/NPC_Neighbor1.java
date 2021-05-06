@@ -33,6 +33,8 @@ public class NPC_Neighbor1 extends NPC {
                 animStart = SPR_NPC_2_HAPPY_START;
                 // Find and open the gate:
                 Game.listRoomObjects(Gate.class).get(0).openDoor();
+                // Give coin:
+                Game.giveCoin(pos.copy());
             }
         }
         // Run default NPC code:

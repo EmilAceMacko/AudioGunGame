@@ -81,7 +81,7 @@ public class Entity extends GameObject implements Constants {
                 double angle = Math.atan2(selfC.y - otherC.y, selfC.x - otherC.x); // The angle between the entities.
                 double overlap = Math.sqrt(Math.pow(otherC.z + selfC.z, 2) - distSqr); // The total overlap distance between the entities.
                 if (overlap > 0.0f) {
-                    push.add((float)(Math.cos(angle) * overlap * ENTITY_PUSH_FACTOR), (float)(Math.sin(angle) * overlap * ENTITY_PUSH_FACTOR));
+                    push.add((float) (Math.cos(angle) * overlap * ENTITY_PUSH_FACTOR), (float) (Math.sin(angle) * overlap * ENTITY_PUSH_FACTOR));
                 }
                 ents.add(obj);
             }

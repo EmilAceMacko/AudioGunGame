@@ -169,8 +169,31 @@ public interface Assets {
             "gui/spr_dialogue_last.png", // Spr no. 150
             // NPC OLD MAN:
             "npcs/spr_npc_4_idle_1.png",
-            "npcs/spr_npc_4_idle_2.png"
+            "npcs/spr_npc_4_idle_2.png",
+            // GUI COIN:
+            "gui/spr_coin_01.png",
+            "gui/spr_coin_02.png",
+            "gui/spr_coin_03.png",
+            "gui/spr_coin_04.png",
+            "gui/spr_coin_05.png",
+            "gui/spr_coin_06.png",
+            // GUI COIN DIGITS:
+            "gui/spr_coin_counter_0.png",
+            "gui/spr_coin_counter_1.png", // Spr no. 160
+            "gui/spr_coin_counter_2.png",
+            "gui/spr_coin_counter_3.png",
+            "gui/spr_coin_counter_4.png",
+            "gui/spr_coin_counter_5.png",
+            "gui/spr_coin_counter_6.png",
+            "gui/spr_coin_counter_7.png",
+            "gui/spr_coin_counter_8.png",
+            "gui/spr_coin_counter_9.png"
+
     };
-    // Filenames of the sound effects:
-    String[] soundFiles = {};
+    // Directory of the audio files:
+    String audioDir = "resources/audio/";
+    // Filenames of the sound effects/music:
+    String[] soundFiles = {
+            "music.wav"
+    };
 }
