@@ -1,0 +1,116 @@
+-room
+	-x 2
+	-y 1
+
+	-tiles
+		8	8	8	8	8	8	8	8	8	8	8	5	5	8	8	8
+		8	7	7	7	7	7	7	7	7	7	7	5	5	7	7	8
+		9	5	5	5	5	5	5	5	5	5	16  17	18	5	5	8
+		7	5	5	5	5	5	5	5	5	5	20	21	22	5	5	8
+		5	5	5	5	5	5	5	5	5	5	24	25	26	5	5	8
+		9	5	5	5	5	5	5	5	5	5	5	5	23	5	5	8
+		8	5	16	17	18  5	5	5	5	5	5	5	5	5	5	8
+		8	5	20	21	22	5	5	5	5	5	5	5	5	5	5	8
+		8	5	24	25	26	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	8	8	8	8	8	8	8	8	8	9	5	5	9	8	8
+	\tiles
+
+	-object # North wall 1
+		-type wall
+		-x 0
+		-y 0
+		-w 11
+		-h 1
+	\object
+
+	-object # North wall 2
+        -type wall
+        -x 13
+        -y 0
+        -w 3
+        -h 1
+    \object
+
+	-object # South wall 1
+		-type wall
+		-x 0
+		-y 11
+		-w 11
+		-h 1
+	\object
+
+	-object # South wall 2
+		-type wall
+		-x 13
+		-y 11
+		-w 3
+		-h 1
+	\object
+
+	-object # West wall 1
+		-type wall
+		-x -1
+        -y 1
+        -w 2
+        -h 2
+	\object
+
+	-object # West wall 2
+        -type wall
+        -x -1
+        -y 5
+        -w 2
+        -h 6
+    \object
+
+	-object # East wall
+		-type wall
+		-x 15
+		-y 1
+		-w 2
+		-h 10
+	\object
+
+    -object # House 1
+        -type wall
+        -x 2
+        -y 6
+        -w 3
+        -h 3
+    \object
+
+    -object # House 2
+        -type wall
+        -x 10
+        -y 2
+        -w 3
+        -h 3
+    \object
+
+    -object # NPC Neighbor 1
+        -type npc neighbor1
+        -x 3
+        -y 9
+    \object
+
+    -object # NPC Neighbor 2
+        -type npc neighbor2
+        -x 11
+        -y 5
+    \object
+
+	-object # Door Gate
+        -type door gateh
+        -x 11
+        -y 11
+    \object
+
+    -object # Secret Door Tree
+        -type door tree
+        -x 11
+        -y 0
+    \object
+
+\room

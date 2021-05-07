@@ -2,7 +2,7 @@ package Objects.NPCs;
 
 import Game.Game;
 import Objects.Enemies.Slime;
-import Objects.Doors.Gate;
+import Objects.Doors.Gate_V;
 import Objects.NPC;
 
 import java.util.ArrayList;
@@ -40,9 +40,11 @@ public class NPC_Farmer extends NPC {
                 affected = true;
                 animStart = SPR_NPC_3_HAPPY_START;
                 // Find and open the gate:
-                Game.listRoomObjects(Gate.class).get(0).openDoor();
+                Game.listRoomObjects(Gate_V.class).get(0).openDoor();
                 // Give coin:
                 Game.giveCoin(pos.copy());
+                // Write to log:
+                Game.writeLogCoin("Farmer");
             }
         }
         // Run default NPC code:

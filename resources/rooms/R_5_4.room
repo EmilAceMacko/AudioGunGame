@@ -1,6 +1,6 @@
 -room
-	-x 3
-	-y 0
+	-x 5
+	-y 4
 
 	-tiles
 		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
@@ -61,6 +61,13 @@
         -type npc oldman
         -x 12
         -y 8
+    \object
+
+	-object # Door Gate
+        -type door gatev
+        -x 0
+        -y 7
+        -open
     \object
 
 \room

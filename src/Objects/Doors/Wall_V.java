@@ -2,16 +2,16 @@ package Objects.Doors;
 
 import Objects.Door;
 
-public class Tree extends Door {
-    public Tree() {
+public class Wall_V extends Door {
+    public Wall_V() {
         super();
         // Default values:
-        doorSprite = SPR_DOOR_TREE_START;
+        doorSprite = SPR_DOOR_WALL_V_START;
         animated = false;
-        width = 2 * TILE;
+        width = TILE;
         height = 2 * TILE;
         // Audio influence:
-        waveInfluence = WAVE_SAW;
+        waveInfluence = WAVE_SQUARE;
         freqInfluence = FREQ_HIGH;
         audioPersistenceMax = 60;
     }

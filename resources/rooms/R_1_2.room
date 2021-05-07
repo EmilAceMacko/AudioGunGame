@@ -1,3 +1,5 @@
+# Test room
+
 -room
 	-x 0
 	-y 0
@@ -7,12 +9,12 @@
 		8	7	7	7	7	7	7	7	7	7	7	7	7	7	7	8
 		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	9
-		8	5	5	5	5	5	28	5	5	5	5	5	5	5	5	7
-		8	5	5	5	5	29	30	31	5	5	5	5	5	5	5	5
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	9
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
+		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	5
+		8	5	5	5	5	5	28	5	5	5	5	5	5	5	5	9
+		8	5	5	5	5	29	30	31	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
 	\tiles
@@ -41,21 +43,13 @@
 		-h 10
 	\object
 	
-	-object # East wall 1
+	-object # East wall
 		-type wall
 		-x 15
 		-y 1
-		-w 2
-		-h 6
+		-w 1
+		-h 10
 	\object
-
-	-object # East wall 2
-        -type wall
-        -x 15
-        -y 9
-        -w 2
-        -h 2
-    \object
 	
 	-object # Player
 		-type player
@@ -64,22 +58,16 @@
 		-global
 	\object
 
-	-object # NPC intro guide
-	    -type npc intro
-	    -x 5
-	    -y 6
+	-object # Enemy
+	    -type enemy slime
+	    -x 12
+	    -y 8
 	\object
 
-	-object # NPC Tree person
-	    -type npc treeperson
+	-object # NPC intro guide
+	    -type npc intro
 	    -x 12
 	    -y 4
 	\object
-
-	-object # Door Tree
-        -type door tree
-        -x 14
-        -y 7
-    \object
 
 \room

@@ -127,6 +127,7 @@ public class DeeJay extends Entity {
             Game.dialogueBox.start();
             Game.dialogueBox.upper = (talkingPartner.pos.y - Game.camera.roomY * ROOM_HEIGHT > ROOM_HEIGHT / 3f);
             talking = true;
+            talkingPartner.talking = true;
         }
     }
 
@@ -138,6 +139,7 @@ public class DeeJay extends Entity {
             }
             // When the dialogue box is fully closed, stop talking:
             if (!Game.dialogueBox.active) {
+                talkingPartner.talking = false;
                 talkingPartner = null;
                 talkingAffected = false;
                 talking = false;

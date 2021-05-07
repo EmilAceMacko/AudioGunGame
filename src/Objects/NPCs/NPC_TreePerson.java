@@ -31,6 +31,8 @@ public class NPC_TreePerson extends NPC {
                 animStart = SPR_NPC_2_HAPPY_START;
                 // Give coin:
                 Game.giveCoin(pos.copy());
+                // Write to log:
+                Game.writeLogCoin("Farmer");
             }
         }
         // Run default NPC code:

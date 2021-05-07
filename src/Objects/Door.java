@@ -29,6 +29,10 @@ public class Door extends GameObject {
         waveInfluence = WAVE_NONE;
         freqInfluence = FREQ_NONE;
     }
+    public void closeDoor() {
+        open = false;
+        solid = true;
+    }
 
     public void display() {
         super.display();

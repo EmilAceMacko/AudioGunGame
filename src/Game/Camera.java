@@ -42,12 +42,12 @@ public class Camera implements Constants {
         // Draw the room tiles:
         for (int y = 0; y < ROOM_HEIGHT / TILE; y++) {
             for (int x = 0; x < ROOM_WIDTH / TILE; x++) {
-                //try {
-                byte i = Game.tileData[roomX][roomY][x][y];
-                if (i != 0x00) Sketch.processing.image(Game.assetMgr.tileSheet[i], x * TILE, y * TILE, TILE, TILE);
-                //} catch (NullPointerException e) {
-                //    e.printStackTrace();
-                //}
+                try {
+                    byte i = Game.tileData[roomX][roomY][x][y];
+                    if (i != 0x00) Sketch.processing.image(Game.assetMgr.tileSheet[i], x * TILE, y * TILE, TILE, TILE);
+                } catch (NullPointerException e) {
+                    //e.printStackTrace(); // Produces a lot of spam for empty rooms.
+                }
             }
         }
         // Draw the room objects:
@@ -90,7 +90,7 @@ public class Camera implements Constants {
         // Draw digits of coin counter:
         String count = Integer.toString(Game.coin);
         for (int i = 0; i < count.length(); i++) {
-            int f = count.charAt(i) - '0'; // Get the current char in the number string, and subtract the char index of "zero" so we start at the index of zero.
+            int f = count.charAt(i) - '0'; // Get the current char in the number string, and subtract the char index of the "zero" char.
             Game.drawSprite(SPR_GUI_COIN_DIGIT_START + f, COIN_COUNTER_X + COIN_DIGIT_W * i, COIN_COUNTER_Y); // Draw the digit.
         }
     }

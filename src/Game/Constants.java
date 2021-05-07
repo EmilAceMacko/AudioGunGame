@@ -5,7 +5,8 @@ import processing.core.PVector;
 public interface Constants {
     // ---------------------------- Variables:
     // Debug:
-    boolean DEBUG = true;
+    boolean DEBUG = false;
+    String LOG_FILENAME = "AudioGunGame.log";
 
     // Game Version:
     boolean SOUNDFUL = true;
@@ -16,7 +17,7 @@ public interface Constants {
     int WAVE_SQUARE = 2;
     int WAVE_SAW = 3;
 
-    // Frequency types: UNUSED FOR NOW!
+    // Frequency types:
     int FREQ_NONE = 0;
     int FREQ_LOW = 1;
     int FREQ_MID = 2;
@@ -86,8 +87,8 @@ public interface Constants {
     int SPR_DOOR_TREE_LENGTH = 2;
     int SPR_GUI_CURSOR_1 = 145;
     int SPR_GUI_CURSOR_2 = 146;
-    int SPR_DOOR_GATE_START = 147;
-    int SPR_DOOR_GATE_LENGTH = 2;
+    int SPR_DOOR_GATE_V_START = 147;
+    int SPR_DOOR_GATE_V_LENGTH = 2;
     int SPR_GUI_DIALOGUE_NEXT = 149;
     int SPR_GUI_DIALOGUE_LAST = 150;
     int SPR_NPC_4_IDLE_START = 151;
@@ -95,6 +96,12 @@ public interface Constants {
     int SPR_GUI_COIN_LENGTH = 6;
     int SPR_GUI_COIN_DIGIT_START = 159;
     int SPR_GUI_COIN_DIGIT_LENGTH = 10;
+    int SPR_DOOR_WALL_H_START = 169;
+    int SPR_DOOR_WALL_H_LENGTH = 2;
+    int SPR_DOOR_WALL_V_START = 171;
+    int SPR_DOOR_WALL_V_LENGTH = 2;
+    int SPR_DOOR_GATE_H_START = 173;
+    int SPR_DOOR_GATE_H_LENGTH = 2;
 
     // ---------------------------- Audio index markers:
 

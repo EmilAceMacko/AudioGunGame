@@ -1,5 +1,6 @@
 package Game;
 
+import Objects.Door;
 import Objects.Wall;
 import Objects.DeeJay;
 import Objects.NPCs.*;
@@ -84,12 +85,16 @@ public class LevelLoader implements Constants {
                                                         case "neighbor1" -> currentObject = new NPC_Neighbor1();
                                                         case "neighbor2" -> currentObject = new NPC_Neighbor2();
                                                         case "oldman" -> currentObject = new NPC_Oldman();
+                                                        case "wallteacher" -> currentObject = new NPC_WallTeacher();
                                                     }
                                                 }
                                                 case "door" -> {
                                                     switch(args[2]) {
                                                         case "tree" -> currentObject = new Tree();
-                                                        case "gate" -> currentObject = new Gate();
+                                                        case "gateh" -> currentObject = new Gate_H();
+                                                        case "gatev" -> currentObject = new Gate_V();
+                                                        case "wallh" -> currentObject = new Wall_H();
+                                                        case "wallv" -> currentObject = new Wall_V();
                                                     }
                                                 }
                                             }
@@ -103,7 +108,7 @@ public class LevelLoader implements Constants {
                                             case "-global" -> globalObject = true;
                                         }
                                         if (currentObject instanceof Slime) { // If the object is a Slime:
-                                            Slime slimeObject = (Slime)currentObject; // Treat the object like a Slime.
+                                            Slime slimeObject = (Slime) currentObject; // Treat the object like a Slime.
                                             switch (args[0]) { // Slime parameters:
                                                 case "-rx" -> slimeObject.roamAreaPos.x = Float.parseFloat(args[1]) * TILE + roomX * ROOM_WIDTH;
                                                 case "-ry" -> slimeObject.roamAreaPos.y = Float.parseFloat(args[1]) * TILE + roomY * ROOM_HEIGHT;
@@ -111,6 +116,19 @@ public class LevelLoader implements Constants {
                                                 case "-rh" -> slimeObject.roamAreaHeight = Integer.parseInt(args[1]) * TILE;
                                                 case "-rsx" -> slimeObject.roamSpeed.x = Float.parseFloat(args[1]);
                                                 case "-rsy" -> slimeObject.roamSpeed.y = Float.parseFloat(args[1]);
+                                            }
+                                        }
+                                        if (currentObject instanceof Door) { // If the object is a Door:
+                                            Door doorObject = (Door) currentObject; // Treat the object like a Door.
+                                            switch(args[0]) { // Door parameters:
+                                                case "-open" -> {
+                                                    doorObject.open = true;
+                                                    doorObject.solid = false;
+                                                }
+                                                case "-closed" -> {
+                                                    doorObject.open = false;
+                                                    doorObject.solid = true;
+                                                }
                                             }
                                         }
                                     }

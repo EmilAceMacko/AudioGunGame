@@ -161,9 +161,9 @@ public interface Assets {
             // CURSOR:
             "gui/spr_cursor_1.png",
             "gui/spr_cursor_2.png",
-            // DOOR - GATE:
-            "doors/spr_gate_1.png",
-            "doors/spr_gate_2.png",
+            // DOOR - GATE VERTICAL:
+            "doors/spr_gate_v_1.png",
+            "doors/spr_gate_v_2.png",
             // DIALOGUE CONTEXT GUI:
             "gui/spr_dialogue_next.png",
             "gui/spr_dialogue_last.png", // Spr no. 150
@@ -187,7 +187,15 @@ public interface Assets {
             "gui/spr_coin_counter_6.png",
             "gui/spr_coin_counter_7.png",
             "gui/spr_coin_counter_8.png",
-            "gui/spr_coin_counter_9.png"
+            "gui/spr_coin_counter_9.png",
+            // DOOR - FAKE WALL:
+            "doors/spr_wall_h_1.png",
+            "doors/spr_wall_h_2.png", // Spr no. 170
+            "doors/spr_wall_v_1.png",
+            "doors/spr_wall_v_2.png",
+            // DOOR - GATE HORIZONTAL:
+            "doors/spr_gate_h_1.png",
+            "doors/spr_gate_h_2.png"
 
     };
     // Directory of the audio files:

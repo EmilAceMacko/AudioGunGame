@@ -31,14 +31,14 @@ public class AssetManager implements Assets, Constants {
         // Load sprites:
         spriteCount = spriteFiles.length;
         spriteSheet = new PImage[spriteCount];
-        for(int i = 0; i < spriteCount; i++) {
+        for (int i = 0; i < spriteCount; i++) {
             spriteSheet[i] = Sketch.processing.loadImage(graphicsDir + spriteFiles[i]);
         }
 
         // Load sounds:
         soundCount = soundFiles.length;
         soundList = new SoundFile[soundCount];
-        for(int i = 0; i < soundCount; i++) {
+        for (int i = 0; i < soundCount; i++) {
             soundList[i] = new SoundFile(Sketch.processing, audioDir + soundFiles[i]);
         }
     }

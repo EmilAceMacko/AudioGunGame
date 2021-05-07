@@ -5,6 +5,9 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.sound.SoundFile;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game implements Constants {
@@ -26,9 +29,11 @@ public class Game implements Constants {
     // Game Variables:
     public static int coin; // The amount of coins that the player has recieved for helping NPCs.
     public static int time; // The timer variable that always increases (counting in frames).
+    // Game Log File:
+    public static File log;
+    public static FileWriter logWriter;
     // Constructor:
-    public Game() {
-    }
+    public Game() {}
 
     public static void init() {
         console("Initalizing");
@@ -65,10 +70,28 @@ public class Game implements Constants {
 
         // Load levels:
         //loader.loadRoom("test.room");
-        loader.loadRoom("R_0_0.room");
-        loader.loadRoom("R_1_0.room");
+        // Row 0:
         loader.loadRoom("R_2_0.room");
-        loader.loadRoom("R_3_0.room");
+        // Row 1:
+        loader.loadRoom("R_0_1.room");
+        loader.loadRoom("R_1_1.room");
+        loader.loadRoom("R_2_1.room");
+        // Row 2:
+        loader.loadRoom("R_2_2.room");
+        // Row 3:
+        // Row 4:
+        loader.loadRoom("R_5_4.room");
+        // Row 5:
+        // Row 6:
+
+        // Create log file:
+        log = new File(LOG_FILENAME);
+        try {
+            logWriter = new FileWriter(LOG_FILENAME);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (DEBUG) console("Log file created at: " + log.getAbsolutePath());
     }
 
     // Update game code:
@@ -229,17 +252,34 @@ public class Game implements Constants {
     //   Then, it runs through the list of game objects and lists the ones that have are of the same class as "C".
     public static <T> ArrayList<T> listRoomObjects(Class<T> C) {
         ArrayList<T> list = new ArrayList<>();
-        for(GameObject obj : roomObjects[camera.roomX][camera.roomY]) {
-            if(obj.getClass() == C) list.add(C.cast(obj));
+        for (GameObject obj : roomObjects[camera.roomX][camera.roomY]) {
+            if (obj.getClass() == C) list.add(C.cast(obj));
         }
         return list;
     }
     // Get a list of specific global objects:
     public static <T> ArrayList<T> listGlobalObjects(Class<T> C) {
         ArrayList<T> list = new ArrayList<>();
-        for(GameObject obj : globalObjects) {
-            if(obj.getClass() == C) list.add(C.cast(obj));
+        for (GameObject obj : globalObjects) {
+            if (obj.getClass() == C) list.add(C.cast(obj));
         }
         return list;
+    }
+
+    // Write to log file:
+    public static void writeLog(String str) {
+        try {
+            logWriter.write(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // Write coin acquisition to log file:
+    public static void writeLogCoin(String npc) {
+        Game.writeLog("+: " + getTimeFormatted() + " - Coin " + coin + " from NPC " + npc + " in room (" + camera.roomX + "," + camera.roomY + ").");
+    }
+    // Write endgame arrival to log file:
+    public static void writeLogEndgame() {
+        Game.writeLog("+: " + getTimeFormatted() + " - Reached end with: ");
     }
 }

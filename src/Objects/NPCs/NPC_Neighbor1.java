@@ -1,7 +1,7 @@
 package Objects.NPCs;
 
 import Game.Game;
-import Objects.Doors.Gate;
+import Objects.Doors.Gate_H;
 import Objects.NPC;
 import java.util.ArrayList;
 
@@ -32,9 +32,11 @@ public class NPC_Neighbor1 extends NPC {
                 affected = true;
                 animStart = SPR_NPC_2_HAPPY_START;
                 // Find and open the gate:
-                Game.listRoomObjects(Gate.class).get(0).openDoor();
+                Game.listRoomObjects(Gate_H.class).get(0).openDoor();
                 // Give coin:
                 Game.giveCoin(pos.copy());
+                // Write to log:
+                Game.writeLogCoin("Annoyed Neighbor");
             }
         }
         // Run default NPC code:
