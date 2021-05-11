@@ -13,6 +13,6 @@ public class Wall_V extends Door {
         // Audio influence:
         waveInfluence = WAVE_SQUARE;
         freqInfluence = FREQ_HIGH;
-        audioPersistenceMax = 60;
+        audioPersistence = 3;
     }
 }

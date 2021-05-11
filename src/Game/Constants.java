@@ -4,9 +4,9 @@ import processing.core.PVector;
 
 public interface Constants {
     // ---------------------------- Variables:
-    // Debug:
+    // Debug / Data collection:
     boolean DEBUG = false;
-    String LOG_FILENAME = "AudioGunGame.log";
+    String LOG_FILENAME = "uploadme.txt";
 
     // Game Version:
     boolean SOUNDFUL = true;
@@ -102,6 +102,8 @@ public interface Constants {
     int SPR_DOOR_WALL_V_LENGTH = 2;
     int SPR_DOOR_GATE_H_START = 173;
     int SPR_DOOR_GATE_H_LENGTH = 2;
+    int SPR_ENEMY_BIGSLIME_START = 175;
+    int SPR_ENEMY_BIGSLIME_LENGTH = 12;
 
     // ---------------------------- Audio index markers:
 

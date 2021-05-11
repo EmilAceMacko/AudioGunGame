@@ -14,24 +14,31 @@ public class Slime extends Enemy {
     public PVector roamAreaPos, roamSpeed;
     public int roamAreaWidth;
     public int roamAreaHeight;
-
+    // Constants:
+    public static final int ANIM_IDLE_START = 0;
+    public static final int ANIM_IDLE_LENGTH = 6;
+    public static final float ANIM_IDLE_SPEED = 0.25f;
+    public static final int ANIM_DEAD_START = 6;
+    public static final int ANIM_DEAD_LENGTH = 6;
+    public static final float ANIM_DEAD_SPEED = 0.25f;
+    // Constructor:
     public Slime() {
         super();
         // Default values:
-        spriteID = SPR_ENEMY_SLIME_START;
+        spriteID = SPR_ENEMY_SLIME_START + ANIM_IDLE_START;
         roamAreaPos = new PVector(0, 0);
         roamSpeed = new PVector(0, 0);
         roamAreaWidth = 0;
         roamAreaHeight = 0;
         // Animation:
         animated = true;
-        animSpeed = 0.25f;
+        animSpeed = ANIM_IDLE_SPEED;
         animStart = spriteID;
-        animLength = 6;
+        animLength = ANIM_IDLE_LENGTH;
         // Audio influence:
         waveInfluence = WAVE_SINE;
         freqInfluence = FREQ_LOW;
-        audioPersistenceMax = 60;
+        audioPersistence = 3;
     }
 
     public void update() {
@@ -42,10 +49,10 @@ public class Slime extends Enemy {
             animate();
         } else { // Is dead:
             // Play death animation:
-            if (animTime < animLength)
+            if (animTime < ANIM_DEAD_LENGTH)
             {
-                spriteID = animStart + 6 + (int) animTime; // Set the sprite based on the animation timer.
-                animTime += animSpeed; // Increment the animation timer.
+                spriteID = animStart + ANIM_DEAD_START + (int) animTime; // Set the sprite based on the animation timer.
+                animTime += ANIM_DEAD_SPEED; // Increment the animation timer.
             }
         }
     }

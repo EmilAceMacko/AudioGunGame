@@ -27,6 +27,8 @@ public class NPC_Oldman extends NPC {
             gate.closeDoor();
             // Log that the player has reached the end of the game:
             Game.writeLogEndgame();
+            // Close (and save) the log:
+            Game.closeLog();
         }
 
         super.update();

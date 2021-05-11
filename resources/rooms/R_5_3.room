@@ -1,19 +1,17 @@
-# Test room
-
 -room
-	-x 0
-	-y 0
+	-x 5
+	-y 3
 
 	-tiles
 		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
 		8	7	7	7	7	7	7	7	7	7	7	7	7	7	7	8
 		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	9
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	5
-		8	5	5	5	5	5	28	5	5	5	5	5	5	5	5	9
-		8	5	5	5	5	29	30	31	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
+		7	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
@@ -35,12 +33,19 @@
 		-h 1
 	\object
 	
-	-object # West wall
+	-object # West wall 1
 		-type wall
-		-x 0
+		-x -1
 		-y 1
-		-w 1
-		-h 10
+		-w 2
+		-h 6
+	\object
+	-object # West wall 2
+		-type wall
+		-x -1
+		-y 9
+		-w 2
+		-h 2
 	\object
 	
 	-object # East wall
@@ -49,25 +54,6 @@
 		-y 1
 		-w 1
 		-h 10
-	\object
-	
-	-object # Player
-		-type player
-		-x 4
-		-y 8
-		-global
-	\object
-
-	-object # Enemy
-	    -type enemy slime
-	    -x 12
-	    -y 8
-	\object
-
-	-object # NPC intro guide
-	    -type npc intro
-	    -x 12
-	    -y 4
 	\object
 
 \room

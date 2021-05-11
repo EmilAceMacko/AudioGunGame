@@ -13,6 +13,6 @@ public class Tree extends Door {
         // Audio influence:
         waveInfluence = WAVE_SAW;
         freqInfluence = FREQ_HIGH;
-        audioPersistenceMax = 60;
+        audioPersistence = 3;
     }
 }

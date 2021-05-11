@@ -9,6 +9,7 @@ public class NPC_TreePerson extends NPC {
     // Constructor:
     public NPC_TreePerson() {
         super();
+        coinID = 1;
         preDialogue = new String[2];
         preDialogue[0] = "When did that tree grow here? Now I can't pass through anymore.";
         preDialogue[1] = "Maybe if I had a SAW of some sort...";
@@ -32,7 +33,7 @@ public class NPC_TreePerson extends NPC {
                 // Give coin:
                 Game.giveCoin(pos.copy());
                 // Write to log:
-                Game.writeLogCoin("Farmer");
+                Game.writeLogCoin(coinID, false);
             }
         }
         // Run default NPC code:

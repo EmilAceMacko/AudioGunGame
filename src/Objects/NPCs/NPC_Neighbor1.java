@@ -9,6 +9,7 @@ public class NPC_Neighbor1 extends NPC {
     // Constructor:
     public NPC_Neighbor1() {
         super();
+        coinID = 3;
         preDialogue = new String[4];
         preDialogue[0] = "Someone stole all my cookies... I suspect it was my NEIGHBOR over there.";
         preDialogue[1] = "Could you do me a favor and play an annoying sound at him?";
@@ -36,7 +37,7 @@ public class NPC_Neighbor1 extends NPC {
                 // Give coin:
                 Game.giveCoin(pos.copy());
                 // Write to log:
-                Game.writeLogCoin("Annoyed Neighbor");
+                Game.writeLogCoin(coinID, false);
             }
         }
         // Run default NPC code:

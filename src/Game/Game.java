@@ -76,22 +76,36 @@ public class Game implements Constants {
         loader.loadRoom("R_0_1.room");
         loader.loadRoom("R_1_1.room");
         loader.loadRoom("R_2_1.room");
+        loader.loadRoom("R_3_1.room");
         // Row 2:
+        loader.loadRoom("R_1_2.room");
         loader.loadRoom("R_2_2.room");
+        loader.loadRoom("R_3_2.room");
+        loader.loadRoom("R_4_2.room");
         // Row 3:
+        loader.loadRoom("R_3_3.room");
+        loader.loadRoom("R_4_3.room");
+        loader.loadRoom("R_5_3.room");
         // Row 4:
+        loader.loadRoom("R_2_4.room");
+        loader.loadRoom("R_3_4.room");
+        loader.loadRoom("R_4_4.room");
         loader.loadRoom("R_5_4.room");
         // Row 5:
+        loader.loadRoom("R_3_5.room");
         // Row 6:
+        loader.loadRoom("R_3_6.room");
 
         // Create log file:
         log = new File(LOG_FILENAME);
         try {
-            logWriter = new FileWriter(LOG_FILENAME);
+            logWriter = new FileWriter(log);
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (DEBUG) console("Log file created at: " + log.getAbsolutePath());
+        // Write the data categories at the beginning of the file:
+        writeLogStartgame();
     }
 
     // Update game code:
@@ -274,12 +288,25 @@ public class Game implements Constants {
             e.printStackTrace();
         }
     }
+    // Write the data categories to the log file:
+    public static void writeLogStartgame() {
+        Game.writeLog("Datatype\tID\tTimestamp\tTimestampSeconds\tcoincount");
+    }
     // Write coin acquisition to log file:
-    public static void writeLogCoin(String npc) {
-        Game.writeLog("+: " + getTimeFormatted() + " - Coin " + coin + " from NPC " + npc + " in room (" + camera.roomX + "," + camera.roomY + ").");
+    public static void writeLogCoin(int coinID, boolean secret) {
+        Game.writeLog("Coin" + (secret ? "S" : "") + "\t" + coinID + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin);
     }
     // Write endgame arrival to log file:
     public static void writeLogEndgame() {
-        Game.writeLog("+: " + getTimeFormatted() + " - Reached end with: ");
+        Game.writeLog("End" + "\t" + "-" + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin);
+    }
+
+    // Close the log:
+    public static void closeLog() {
+        try {
+            logWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

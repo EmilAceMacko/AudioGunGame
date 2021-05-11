@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class NPC_WallTeacher extends NPC {
     public NPC_WallTeacher() {
         super();
+        coinID = 4;
         preDialogue = new String[5];
         preDialogue[0] = "Aight so hear this, them walls? They're not all what they seem...";
         preDialogue[1] = "The brittle ones, they're FAKE WALLS you see...";
@@ -35,7 +36,7 @@ public class NPC_WallTeacher extends NPC {
                 // Give coin:
                 Game.giveCoin(pos.copy());
                 // Write to log:
-                Game.writeLogCoin("Fake-Wall Teacher");
+                Game.writeLogCoin(coinID, true);
             }
         }
         // Run default NPC code:

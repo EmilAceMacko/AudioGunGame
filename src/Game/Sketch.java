@@ -63,5 +63,7 @@ public class Sketch extends PApplet implements Constants {
         // Game loop:
         Game.update(); // Update game code.
         Game.display(); // Draw game graphics.
+        // Close the game log if the game is being closed:
+        if(keyPressed && keyCode == ESC) Game.closeLog();
     }
 }

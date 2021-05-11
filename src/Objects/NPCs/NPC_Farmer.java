@@ -11,6 +11,7 @@ public class NPC_Farmer extends NPC {
 
     public NPC_Farmer() {
         super();
+        coinID = 2;
         preDialogue = new String[3];
         preDialogue[0] = "These darn slimes are stompin' all over me crops! And they are too fast fer' me to catch!";
         preDialogue[1] = "If only me voice was LOW and SMOOTH...";
@@ -44,7 +45,7 @@ public class NPC_Farmer extends NPC {
                 // Give coin:
                 Game.giveCoin(pos.copy());
                 // Write to log:
-                Game.writeLogCoin("Farmer");
+                Game.writeLogCoin(coinID, false);
             }
         }
         // Run default NPC code:

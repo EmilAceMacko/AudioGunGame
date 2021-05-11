@@ -195,7 +195,20 @@ public interface Assets {
             "doors/spr_wall_v_2.png",
             // DOOR - GATE HORIZONTAL:
             "doors/spr_gate_h_1.png",
-            "doors/spr_gate_h_2.png"
+            "doors/spr_gate_h_2.png",
+            // ENEMY - BIG SLIME:
+            "enemies/bigslime/spr_bigslime_1.png",
+            "enemies/bigslime/spr_bigslime_2.png",
+            "enemies/bigslime/spr_bigslime_3.png",
+            "enemies/bigslime/spr_bigslime_4.png",
+            "enemies/bigslime/spr_bigslime_5.png",
+            "enemies/bigslime/spr_bigslime_6.png", // Spr no. 180
+            "enemies/bigslime/spr_bigslime_7.png",
+            "enemies/bigslime/spr_bigslime_8.png",
+            "enemies/bigslime/spr_bigslime_9.png",
+            "enemies/bigslime/spr_bigslime_10.png",
+            "enemies/bigslime/spr_bigslime_11.png",
+            "enemies/bigslime/spr_bigslime_12.png"
 
     };
     // Directory of the audio files:

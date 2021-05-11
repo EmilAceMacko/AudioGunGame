@@ -4,6 +4,8 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.sound.*;
 
+import static processing.core.PApplet.map;
+
 public class Mixer implements Constants {
     // Mixer variables:
     public int waveform;
@@ -12,16 +14,27 @@ public class Mixer implements Constants {
     public float sliderPos, sliderGrabOffset;
     public boolean sliderGrabbed;
     public SinOsc sinOsc;
+    public Env sinEnv;
+    public Reverb sinReverb;
+    public LowPass sinLowPass;
     public SqrOsc sqrOsc;
+    public Env sqrEnv;
+    public Reverb sqrReverb;
+    public LowPass sqrLowPass;
     public SawOsc sawOsc;
-    public LowPass lowPass;
+    public Env sawEnv;
+    public Reverb sawReverb;
+    public LowPass sawLowPass;
     public boolean playing;
     public int playingOsc;
     public float[] samples;
     public float waveScale;
     public float waveCycle;
     public float audioDist;
+    public boolean audioAffecting;
+    public Waveform waveSpectrum;
     public SoundFile music;
+    public boolean[] playedOsc;
     // Mixer constants:
     public static final int GUI_Y = ROOM_HEIGHT; // The y-coordinate of the top of the mixer.
     public static final int CHECKBOX_X = 146 * SCALE; // The starting X of the leftmost checkbox.
@@ -46,7 +59,18 @@ public class Mixer implements Constants {
     public static final int WINDOW_INNER_WIDTH = 56 * SCALE; // The width inside the waveform window.
     public static final int WINDOW_INNER_HEIGHT = 40 * SCALE; // The height inside the waveform window.
     public static final float VOLUME_MUSIC = 0.05f; // The volume of the background music (from 0 to 1).
-    // Constructor:
+    public static final float ENV_ATTACK = 0.01f; // The attack time of the oscillator envelopes.
+    public static final float ENV_SUSTAIN = 0.004f; // The sustain time of the oscillator envelopes.
+    public static final float ENV_DECAY = 0.3f; // The decay level of the oscillator envelopes.
+    public static final float ENV_RELEASE = 0.5f; // The release time of the oscillator envelopes.
+    public static final float REVERB_ROOM_MAX = 1.0f;
+    public static final float REVERB_DAMP_MAX = 1.0f;
+    public static final float REVERB_WET_MAX = 0.5f;
+    public static final float LOWPASS_FREQ_MIN = 0.5f;
+    public static final float LOWPASS_FREQ_MAX = 1.1f;
+    public static final int waveSamples = 400;
+
+            // Constructor:
     Mixer() {
         // Default values:
         waveform = WAVE_SINE; // The currently selected waveform.
@@ -58,53 +82,85 @@ public class Mixer implements Constants {
         sliderPos = 0.5f; // The starting positon of the slider (between 0 and 1).
         sliderGrabOffset = 0.0f; // The horizontal offset between the slider and the cursor upon grab.
         sliderGrabbed = false; // Whether the slider is currently grabbed by the cursor.
-        sinOsc = new SinOsc(Sketch.processing); // Sine Oscillator.
-        sqrOsc = new SqrOsc(Sketch.processing); // Square Oscillator.
-        sawOsc = new SawOsc(Sketch.processing); // Saw Oscillator.
-        lowPass = new LowPass(Sketch.processing); // Low-Pass Effect.
         playing = false; // Whether the oscillator(s) should be playing.
         playingOsc = WAVE_NONE; // Which oscillator is currently playing.
         samples = new float[WINDOW_INNER_WIDTH]; // The array carrying each audio sample to display in the waveform window.
         waveScale = 100; // The horizontal scale of the waveform (in Hz).
         waveCycle = 0; // Carries the wave-cycle offset for each frame.
         audioDist = 0; // The distance between the audio gun and the target that gets hit by the audio ray.
+        audioAffecting = false; // Whether the audio being shot is affecting the target that it has hit.
+        waveSpectrum = new Waveform(Sketch.processing, waveSamples);
         music = Game.getSound(SND_MUSIC); // The music to play in the background.
+        playedOsc = new boolean[4];
 
         // Play the music:
         music.amp(VOLUME_MUSIC); // Set volume.
         music.loop(); // Play and loop.
+
+        // Oscillators:
+        sinOsc = new SinOsc(Sketch.processing); // Sine Oscillator.
+        sinEnv = new Env(Sketch.processing); // Sine Envelope.
+        sinReverb = new Reverb(Sketch.processing); // Sine Reverb.
+        sinLowPass = new LowPass(Sketch.processing); // Sine Low-Pass.
+
+        sqrOsc = new SqrOsc(Sketch.processing); // Square Oscillator.
+        sqrEnv = new Env(Sketch.processing); // Square Envelope.
+        sqrReverb = new Reverb(Sketch.processing); // Square Reverb.
+        sqrLowPass = new LowPass(Sketch.processing); // Square Low-Pass.
+
+        sawOsc = new SawOsc(Sketch.processing); // Saw Oscillator.
+        sawEnv = new Env(Sketch.processing); // Saw Envelope.
+        sawReverb = new Reverb(Sketch.processing); // Saw Reverb.
+        sawLowPass = new LowPass(Sketch.processing); // Saw Low-Pass.
+
+        sinOsc.amp(VOLUME_SINE);
+        sinReverb.process(sinOsc);
+        sinLowPass.process(sinOsc);
+        sqrOsc.amp(VOLUME_SQUARE);
+        sqrReverb.process(sqrOsc);
+        sqrLowPass.process(sqrOsc);
+        sawOsc.amp(VOLUME_SAW);
+        sawReverb.process(sawOsc);
+        sawLowPass.process(sawOsc);
+
+        switch(waveform) {
+            case (WAVE_SINE) -> waveSpectrum.input(sinOsc);
+            case (WAVE_SQUARE) -> waveSpectrum.input(sqrOsc);
+            case (WAVE_SAW) -> waveSpectrum.input(sawOsc);
+        }
     }
 
     public void update() {
+        int newWaveform = WAVE_NONE;
         // Checkboxes:
         for (int i = 1; i < checkbox.length; i++) {
             if (Game.pointInArea(Game.mouse, checkbox[i].pos.x, checkbox[i].pos.y, checkbox[i].width, checkbox[i].height)) { // If the mouse is above the checkbox:
                 if (Game.getInput(MB_LEFT, PRESS)) { // If the left mouse button is being pressed:
                     resetCheckBoxes(); // Uncheck all checkboxes.
-                    stopOscillators(); // Stop oscillators.
+                    //stopOscillators(); // Stop oscillators.
                     checkbox[i].checked = true; // Check the checkbox.
-                    waveform = i; // Set the current waveform to match the checkbox' waveform.
+                    newWaveform = i; // Set the current waveform to match the checkbox' waveform.
                 }
             }
         }
         // Checkboxes via keys/buttons 1, 2, 3:
         if (Game.getInput(B_1, PRESS)) {
             resetCheckBoxes(); // Uncheck all checkboxes.
-            stopOscillators(); // Stop oscillators.
+            //stopOscillators(); // Stop oscillators.
             checkbox[WAVE_SINE].checked = true; // Check the checkbox.
-            waveform = WAVE_SINE; // Set the current waveform to match the checkbox' waveform.
+            newWaveform = WAVE_SINE; // Set the current waveform to match the checkbox' waveform.
         }
         if (Game.getInput(B_2, PRESS)) {
             resetCheckBoxes(); // Uncheck all checkboxes.
-            stopOscillators(); // Stop oscillators.
+            //stopOscillators(); // Stop oscillators.
             checkbox[WAVE_SQUARE].checked = true; // Check the checkbox.
-            waveform = WAVE_SQUARE; // Set the current waveform to match the checkbox' waveform.
+            newWaveform = WAVE_SQUARE; // Set the current waveform to match the checkbox' waveform.
         }
         if (Game.getInput(B_3, PRESS)) {
             resetCheckBoxes(); // Uncheck all checkboxes.
-            stopOscillators(); // Stop oscillators.
+            //stopOscillators(); // Stop oscillators.
             checkbox[WAVE_SAW].checked = true; // Check the checkbox.
-            waveform = WAVE_SAW; // Set the current waveform to match the checkbox' waveform.
+            newWaveform = WAVE_SAW; // Set the current waveform to match the checkbox' waveform.
         }
         // Slider:
         if (sliderGrabbed) {
@@ -139,21 +195,55 @@ public class Mixer implements Constants {
                 frequency = FREQ_MIN + (int) ((FREQ_MAX - FREQ_MIN) * sliderPos);
             }
         }
+
+        if(newWaveform != WAVE_NONE && newWaveform != waveform)
+        {
+            waveform = newWaveform;
+            switch(waveform) {
+                case (WAVE_SINE) -> waveSpectrum.input(sinOsc);
+                case (WAVE_SQUARE) -> waveSpectrum.input(sqrOsc);
+                case (WAVE_SAW) -> waveSpectrum.input(sawOsc);
+            }
+        }
+
+
         // Oscillators:
-        if (playing) {
+        updateOscillators();
+        if(playedOsc[waveform]) waveSpectrum.analyze();
+        /*if (playing) {
             playOscillators();
             updateOscillators();
         } else {
             stopOscillators();
-        }
+        }*/
     }
     // Uncheck all checkboxes:
     public void resetCheckBoxes() {
         for (int i = 1; i < checkbox.length; i++) checkbox[i].checked = false;
     }
+
     // Play the oscillator that corresponds to the current waveform.
     public void playOscillators() {
-        if (playingOsc == WAVE_NONE) {
+        playedOsc[waveform] = true;
+        switch (waveform) {
+            case (WAVE_SINE) -> {
+                sinOsc.freq(frequency);
+                sinOsc.play();
+                sinEnv.play(sinOsc, ENV_ATTACK, ENV_SUSTAIN, ENV_DECAY, ENV_RELEASE);
+            }
+            case (WAVE_SQUARE) -> {
+                sqrOsc.freq(frequency);
+                sqrOsc.play();
+                sqrEnv.play(sqrOsc, ENV_ATTACK, ENV_SUSTAIN, ENV_DECAY, ENV_RELEASE);
+            }
+            case (WAVE_SAW) -> {
+                sawOsc.freq(frequency);
+                sawOsc.play();
+                sawEnv.play(sawOsc, ENV_ATTACK, ENV_SUSTAIN, ENV_DECAY, ENV_RELEASE);
+            }
+        }
+
+        /*if (playingOsc == WAVE_NONE) {
             switch (waveform) {
                 case (WAVE_SINE) -> {
                     sinOsc.play();
@@ -169,12 +259,23 @@ public class Mixer implements Constants {
                 }
             }
             playingOsc = waveform;
-        }
+        }*/
     }
     // Update the frequency and amplitude of the currently playing oscillator:
     public void updateOscillators() {
         // Update volume and frequency of oscillators:
-        if (playingOsc != WAVE_NONE) {
+
+        float fac = audioDist / RAY_LENGTH;
+        sinReverb.set(fac * REVERB_ROOM_MAX, fac * REVERB_DAMP_MAX, fac * REVERB_WET_MAX);
+        sqrReverb.set(fac * REVERB_ROOM_MAX, fac * REVERB_DAMP_MAX, fac * REVERB_WET_MAX);
+        sawReverb.set(fac * REVERB_ROOM_MAX, fac * REVERB_DAMP_MAX, fac * REVERB_WET_MAX);
+        sinLowPass.freq(audioAffecting ? frequency * LOWPASS_FREQ_MIN : frequency * LOWPASS_FREQ_MAX);
+        sqrLowPass.freq(audioAffecting ? frequency * LOWPASS_FREQ_MIN : frequency * LOWPASS_FREQ_MAX);
+        sawLowPass.freq(audioAffecting ? frequency * LOWPASS_FREQ_MIN : frequency * LOWPASS_FREQ_MAX);
+        //lowPass.freq(FREQ_MAX * 2f + fac * (FREQ_MIN - FREQ_MAX) * 2f);
+        //sinOsc.freq()
+
+        /*if (playingOsc != WAVE_NONE) {
             switch (waveform) {
                 case (WAVE_SINE) -> {
                     sinOsc.freq(frequency);
@@ -191,10 +292,11 @@ public class Mixer implements Constants {
             }
             float fac = audioDist / RAY_LENGTH;
             lowPass.freq(FREQ_MAX * 2f + fac * (FREQ_MIN - FREQ_MAX) * 2f);
-        }
+        }*/
     }
     // Stop oscillators (if one is playing):
     public void stopOscillators() {
+        /*
         if (playingOsc != WAVE_NONE) {
             lowPass.stop();
             switch (playingOsc) {
@@ -204,7 +306,9 @@ public class Mixer implements Constants {
             }
             playingOsc = WAVE_NONE;
         }
+        */
     }
+
     // Get the low/mid/high representation of the current frequency:
     public int getFrequencyScale() {
         int freqSpectrum = FREQ_MAX - FREQ_MIN;
@@ -241,12 +345,31 @@ public class Mixer implements Constants {
         Sketch.processing.stroke(255);
         Sketch.processing.noFill();
         int w = WINDOW_INNER_WIDTH;
-        int h = WINDOW_INNER_HEIGHT / 2;
+        int h = WINDOW_INNER_HEIGHT;
         int x = WINDOW_INNER_X;
-        int y = WINDOW_INNER_Y + h;
-        int f = (int)(frequency * waveScale);
+        int y = WINDOW_INNER_Y;
+        int f = (int) (frequency * waveScale);
+        float volume = 0;
+        switch (waveform) {
+            case (WAVE_SINE) -> volume = VOLUME_SINE;
+            case (WAVE_SQUARE) -> volume = VOLUME_SQUARE;
+            case (WAVE_SAW) -> volume = VOLUME_SAW;
+        }
+        if(playedOsc[waveform]) {
+            Sketch.processing.beginShape();
+            for (int i = 0; i < waveSamples; i++) {
+                float vx = map(i, 0, waveSamples, x, x + w);
+                float vy = map(waveSpectrum.data[i], -volume, volume, y, y + h);
+                Sketch.processing.vertex(vx, vy);
+            }
+            Sketch.processing.endShape();
+        } else {
+            // Draw a blank waveform (line):
+            Sketch.processing.line(x, y + h / 2, x + w, y + h / 2);
+        }
+
         // Generate visual audio waveforms:
-        if (playing) {
+        /*if (playing) {
             for (int i = 0; i < samples.length; i++) {
                 float freq = (waveScale * w) / frequency;
                 // Generate waveform samples mathematically:
@@ -260,14 +383,17 @@ public class Mixer implements Constants {
             }
             // Draw samples as a point-line:
             Sketch.processing.beginShape();
-            for (int i = 0; i < samples.length; i++) {
-                Sketch.processing.vertex(x + i, y + samples[i] * 2 * h / 3);
+            for (int i = 0; i < waveSamples; i++) {
+                float vx = map(i, 0, waveSamples, x, x + w);
+                float vy = map(waveSpectrum.data[i], -1, 1, y, y + h);
+                Sketch.processing.vertex(vx, vy);
+                //Sketch.processing.vertex(x + i, y + samples[i] * 2 * h / 3);
             }
             Sketch.processing.endShape();
         } else {
             // Draw a blank waveform (line):
             Sketch.processing.line(x, y, x+w, y);
-        }
+        }*/
     }
 
     // Nested class for waveform checkboxes:

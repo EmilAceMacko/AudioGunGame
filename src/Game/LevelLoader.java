@@ -75,6 +75,7 @@ public class LevelLoader implements Constants {
                                                 case "enemy" -> {
                                                     switch(args[2]) {
                                                         case "slime" -> currentObject = new Slime();
+                                                        case "bigslime" -> currentObject = new BigSlime();
                                                     }
                                                 }
                                                 case "npc" -> {

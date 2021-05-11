@@ -68,7 +68,7 @@ public class Entity extends GameObject implements Constants {
         return collided.toArray(new GameObject[0]); // Return the collision list as an array.
     }
 
-    // Check for collision against Entity objects:
+    // Check for collision against forwardengine.Entity objects:
     public ArrayList<GameObject> entityCollision(ArrayList<GameObject> objectList) {
         ArrayList<GameObject> ents = new ArrayList<>(); // Create a list to store collided entities in.
         for (GameObject obj : objectList) {
@@ -88,7 +88,7 @@ public class Entity extends GameObject implements Constants {
         }
         return ents;
     }
-    // Check for collision against a non-Entity object:
+    // Check for collision against a non-forwardengine.Entity object:
     public GameObject obstacleCollision() {
         for (GameObject obj : Game.roomObjects[Game.camera.roomX][Game.camera.roomY]) {
             if (!(obj instanceof Entity) && obj.solid) {
