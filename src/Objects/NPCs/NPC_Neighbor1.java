@@ -12,7 +12,7 @@ public class NPC_Neighbor1 extends NPC {
         coinID = 3;
         preDialogue = new String[4];
         preDialogue[0] = "Someone stole all my cookies... I suspect it was my NEIGHBOR over there.";
-        preDialogue[1] = "Could you do me a favor and play an annoying sound at him?";
+        preDialogue[1] = "Could you do me a favor and bombard him with an annoying sound?";
         preDialogue[2] = "Not something TOO GRINDY though, but not too SMOOTH either...";
         preDialogue[3] = "Try and experiment with different pitches, to find his sweet spot!";
         postDialogue = new String[1];

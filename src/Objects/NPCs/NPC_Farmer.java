@@ -15,7 +15,7 @@ public class NPC_Farmer extends NPC {
         preDialogue = new String[3];
         preDialogue[0] = "These darn slimes are stompin' all over me crops! And they are too fast fer' me to catch!";
         preDialogue[1] = "If only me voice was LOW and SMOOTH...";
-        preDialogue[2] = "... then the slimes would resonate with the tone, and DISSOLVE!";
+        preDialogue[2] = "... I could yell repeatedly at the slimes, they'd resonate with the tone and DISSOLVE!";
         postDialogue = new String[1];
         postDialogue[0] = "Wow! Me ears are gone and me crops are safe! As a thanks, I've open'd the gate for ya!";
         // Set animation:

@@ -22,6 +22,7 @@ public class DeeJay extends Entity {
     public boolean shooting;
     public float animShoot;
     public int shootCooldown;
+    public int stepTimer;
     // DeeJay constants:
     public static final int NPC_TALK_DISTANCE = TILE * 3;
     public static final int ANIM_WALK_LENGTH = 3;
@@ -47,7 +48,7 @@ public class DeeJay extends Entity {
         targetCoord = new PVector(0, 0); // The point that DeeJay is hitting with the audio gun (relative to DeeJay).
         shooting = false; // Whether DeeJay is currently firing the gun.
         animShoot = 0.0f; // The animation value for the shooting animation.
-        shootCooldown = 0;
+        shootCooldown = 7;
     }
 
     public void update() {
@@ -65,16 +66,25 @@ public class DeeJay extends Entity {
             vel.y = moveSpeed; // Move down.
         } else vel.y = 0; // Don't move.
 
-        // Let forwardengine.Entity class handle movement:
-        super.update();
-        // Find nearest NPC and make them speak if we are close enough.
-        nearestNPC();
-        // Handle aiming:
-        aim();
-        // Handle shooting the audio gun:
-        shoot();
-        // Lastly, animate DeeJay based on inputs and his current state.
-        animate();
+        super.update(); // Let forwardengine.Entity class handle movement.
+        if (SOUNDFUL) footStep();
+        nearestNPC(); // Find nearest NPC and make them speak if we are close enough.
+        aim(); // Handle aiming.
+        shoot(); // Handle shooting the audio gun.
+        surfWeb(); // Handle interaction with the Computer in the final room.
+        animate(); // Lastly, animate DeeJay based on inputs and his current state.
+    }
+
+    public void footStep() {
+        if (moving) {
+            stepTimer--;
+            if (stepTimer <= 0) {
+                Game.playSound(SND_FOOTSTEP);
+                stepTimer = (int) (ANIM_WALK_LENGTH / ANIM_WALK_SPEED);
+            }
+        } else {
+            stepTimer = 0;
+        }
     }
 
     public void nearestNPC() {
@@ -158,6 +168,7 @@ public class DeeJay extends Entity {
     public void shoot() {
         // Decrement shoot-cooldown:
         if(shootCooldown > 0) shootCooldown--;
+
         // Shoot only if the left mouse button is pressed/held, and if the cursor is within the room area.
         boolean mouseInRoom = Game.pointInArea(Game.mouse, 0, 0, ROOM_WIDTH, ROOM_HEIGHT);
         shooting = false;
@@ -165,13 +176,10 @@ public class DeeJay extends Entity {
         {
             shooting = true;
             shootCooldown = SHOOT_COOLDOWN_MAX;
-            Game.mixer.playOscillators();
-        }
 
-        //Game.mixer.playing = shooting;
-
-        if (shooting) {
+            float overtonePitch = 1f;
             boolean targetAffectedByAudio = false;
+
             PVector shootPoint = PVector.add(pos, aimPivot); // The point that the audio gun ray is shot from.
             ArrayList<GameObject> newTargets = new ArrayList<>(); // The objects that are hit by the audio gun ray.
             float aimReal = (float) Math.PI/2 - aimAngle; // The corrected aim angle.
@@ -203,55 +211,51 @@ public class DeeJay extends Entity {
                     }
                     // Affect target:
                     targetAffectedByAudio = target.audioHit(Game.mixer.waveform, Game.mixer.getFrequencyScale());
-                    /*target.isHitByAudio = true;
-                    target.waveHitting = Game.mixer.waveform;
-                    target.freqHitting = Game.mixer.getFrequencyScale();
-                    if((target.waveHitting == target.waveInfluence || target.waveHitting == WAVE_NONE) && // If being hit by specific waveform OR no specific waveform is required:
-                        (target.freqHitting == target.freqInfluence || target.freqHitting == FREQ_NONE)) {
-                        targetAffectedByAudio = true;
-                    }*/ // TODO - REMOVE!
                 } else {
                     if (closestObj != null) {
                         // Set new target:
                         target = closestObj;
                         // Affect new target:
                         targetAffectedByAudio = target.audioHit(Game.mixer.waveform, Game.mixer.getFrequencyScale());
-                        /*target.isHitByAudio = true;
-                        target.waveHitting = Game.mixer.waveform;
-                        target.freqHitting = Game.mixer.getFrequencyScale();
-                        if((target.waveHitting == target.waveInfluence || target.waveHitting == WAVE_NONE) && // If being hit by specific waveform OR no specific waveform is required:
-                            (target.freqHitting == target.freqInfluence || target.freqHitting == FREQ_NONE)) {
-                            targetAffectedByAudio = true;
-                        }*/ // TODO - REMOVE!
                     }
                 }
-                // Do ray collision again to get the ray intersection coordinate (relative to the shoot point):
+
                 if (target != null) {
+                    // Do ray collision again to get the ray intersection coordinate (relative to the shoot point):
                     targetCoord = collisionRayObject(aimReal, shootPoint, target).sub(shootPoint);
+
+                    // Get target audioPersistence data:
+                    overtonePitch = (float) target.audioPersistence / (float) target.audioPersistenceThreshold;
+                    if(overtonePitch > 1.0f) overtonePitch = 1.0f;
+                    else if(overtonePitch < 0.0f) overtonePitch = 0.0f;
                 }
+
             } else { // No objects hit by ray.
-                if(target != null) {
-                    // Stop affecting old target (if we had one):
-                    //target.isHitByAudio = false; // TODO - REMOVE!
-                    // Unset target:
-                    target = null;
-                }
+                target = null; // Unset target.
                 // Set target coordinate to maximum ray distance:
                 targetCoord.set((float) Math.cos(aimReal) * RAY_LENGTH, (float) Math.sin(aimReal) * RAY_LENGTH);
             }
-            // Set mixer audio distance to target distance:
-            Game.mixer.audioDist = targetCoord.mag();
-            Game.mixer.audioAffecting = targetAffectedByAudio;
+            // Play audio:
+            Game.mixer.playOscillators(targetCoord.mag(), targetAffectedByAudio, overtonePitch);
         } else { // Not shooting:
-            // If the audio gun was affecting a target:
-            if (target != null) {
-                // Stop affecting old target:
-                //target.isHitByAudio = false; // TODO - REMOVE!
+            target = null; // Unset target.
+            targetCoord.set(0, 0); // Set target coordinate to zero.
+        }
+    }
+
+    public void surfWeb() {
+        if(Game.getInput(B_SPACE, PRESS)) {
+            ArrayList<Computer> list = Game.listRoomObjects(Computer.class);
+            if(!list.isEmpty()) {
+                Computer computer = list.get(0);
+                // Check if DeeJay is touching any of the computer's four sides:
+                if (collisionObjectObject(this, 0, -SCALE, computer) ||  // Check DeeJay's top side.
+                    collisionObjectObject(this, 0, SCALE, computer) ||   // Check DeeJay's bottom side.
+                    collisionObjectObject(this, -SCALE, 0, computer) ||  // Check DeeJay's left side.
+                    collisionObjectObject(this, SCALE, 0, computer)) {   // Check DeeJay's right side.
+                    computer.openBrowser(); // Open the player's browser.
+                }
             }
-            // Unset target:
-            target = null;
-            // Set target coordinate to zero.
-            targetCoord.set(0, 0);
         }
     }
 

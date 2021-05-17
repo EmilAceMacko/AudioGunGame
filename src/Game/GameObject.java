@@ -10,7 +10,8 @@ public abstract class GameObject implements Constants {
     public int animStart, animLength;
     public float animTime, animSpeed;
     public boolean solid, animated, isHitByAudio, isHitByCorrectAudio, dead;
-    public int waveInfluence, freqInfluence, waveHitting, freqHitting, audioPersistence, audioPersistenceMax;
+    public int waveInfluence, freqInfluence, audioPersistence, audioPersistenceThreshold;
+    public float audioPersistenceHealTime, audioPersistenceHealRate;
 
     // Constructor:
     public GameObject() {
@@ -27,21 +28,33 @@ public abstract class GameObject implements Constants {
         solid = true; // Whether the object is solid.
         animated = false; // Whether this object is animated.
         isHitByAudio = false; // Whether the object is currently being hit with audio.
-        isHitByCorrectAudio = false;
+        isHitByCorrectAudio = false; // Whether the object is currently being hit with the right frequency and waveform.
         dead = false; // Whether the object should be removed from the game.
         waveInfluence = WAVE_NONE; // The waveform that this object can be influenced by.
         freqInfluence = FREQ_NONE; // The frequency that this object can be influenced by.
-        //waveHitting = WAVE_NONE; // The waveform that is currently hitting this object (if influenced by audio). // TODO - REMOVE!
-        //freqHitting = FREQ_NONE; // The frequency that is currently hitting this object (if influenced by audio). // TODO - REMOVE!
-        audioPersistence = 0; // How many hits of audio the object can withstand (with the correct frequency and waveform)
-        //audioPersistenceMax = 0; // How long the object can persist while being hit with audio. // TODO - REMOVE!
+        audioPersistence = 0; // How many hits of "correct audio" the object has endured.
+        audioPersistenceThreshold = 1; // How many hits of "correct audio" the object can take before hitting the threshold.
+        audioPersistenceHealTime = 0.0f; // Counts by one heal rate every frame. When it hits 1.0, the audioPersistence is decremented by 1.
+        audioPersistenceHealRate = 1f/45f; // How often the audioPersistence heals (in points per frame).
     }
 
     // Update object code:
     public void update() {
         isHitByAudio = false;
         isHitByCorrectAudio = false;
-        //audioPersist(); // TODO - REMOVE!
+        audioHeal();
+    }
+
+    public void audioHeal() {
+        if(audioPersistence > 0) {
+            audioPersistenceHealTime += audioPersistenceHealRate;
+            if (audioPersistenceHealTime >= 1.0f) {
+                audioPersistence--;
+                audioPersistenceHealTime = 0.0f;
+            }
+        } else {
+            audioPersistenceHealTime = 0.0f;
+        }
     }
 
     public boolean audioHit(int waveHitting, int freqHitting) {
@@ -49,9 +62,8 @@ public abstract class GameObject implements Constants {
         // If being hit by specific waveform OR no specific waveform is required AND if being hit by specific frequency OR no specific frequency is required:
         if ((waveHitting == waveInfluence || waveHitting == WAVE_NONE) && (freqHitting == freqInfluence || freqHitting == FREQ_NONE)) {
             isHitByCorrectAudio = true;
-            if (audioPersistence > 0) {
-                audioPersistence--;
-            } else {
+            audioPersistence++;
+            if (audioPersistence >= audioPersistenceThreshold) {
                 audioThreshold();
             }
         } else {
@@ -60,31 +72,6 @@ public abstract class GameObject implements Constants {
         return isHitByCorrectAudio;
     }
 
-    /*public void audioPersist() {
-        // If currently being hit by audio:
-        if (isHitByAudio) {
-            // Compare to specific waveforms/frequencies:
-            if ((waveHitting == waveInfluence || waveHitting == WAVE_NONE) && // If being hit by specific waveform OR no specific waveform is required:
-                    (freqHitting == freqInfluence || freqHitting == FREQ_NONE)) { // If being hit by specific frequency OR no specific frequency is required:
-                if (audioPersistence < audioPersistenceMax) {
-                    audioPersistence++;
-                    //offset.x = SCALE * (Math.abs((audioPersistence % 4) - 2) - 1); // Apply shake.
-                } else {
-                    offset.x = 0;
-                    offset.y = 0;
-                    audioThreshold();
-                }
-            }
-        } else { // Not currently being hit by audio:
-            waveHitting = WAVE_NONE;
-            freqHitting = FREQ_NONE;
-            if (audioPersistence > 0) {
-                audioPersistence = 0;
-                offset.x = 0;
-                offset.y = 0;
-            }
-        }
-    }*/ // TODO - REMOVE!
     public void audioThreshold() {
         // Object-specific code to run when the audio threshold has been hit.
         // If an object needs to know when it's audio threshold has been reached, it will implement this function in its own class.

@@ -9,12 +9,12 @@
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
 		7	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	8	8	5	5	8	8	8	8	8	8	8	8	8	8	8
+		8	8	9	5	5	9	8	8	8	8	8	8	8	8	8	8
 	\tiles
 
 	-object # North wall
@@ -61,6 +61,54 @@
 		-y 1
 		-w 1
 		-h 10
+	\object
+	
+	-object # NPC Crate Person
+		-type npc crateperson
+		-x 11
+		-y 3
+	\object
+	
+	-object # Door Crate 1
+		-type door crate
+		-x 8
+		-y 2
+	\object
+	-object # Door Crate 2
+		-type door crate
+		-x 4
+		-y 3
+	\object
+	-object # Door Crate 3
+		-type door crate
+		-x 2
+		-y 6
+	\object
+	-object # Door Crate 4
+		-type door crate
+		-x 7
+		-y 6
+	\object
+	-object # Door Crate 5
+		-type door crate
+		-x 12
+		-y 6
+	\object
+	-object # Door Crate 6
+		-type door crate
+		-x 10
+		-y 8
+	\object
+	-object # Door Crate 7
+		-type door crate
+		-x 6
+		-y 9
+	\object
+	
+	-object # Gate
+		-type door gateh
+		-x 3
+		-y 11
 	\object
 
 \room

@@ -16,7 +16,7 @@ public class NPC_Neighbor2 extends NPC {
         // Set audio influence values:
         waveInfluence = WAVE_SQUARE;
         freqInfluence = FREQ_MID;
-        audioPersistence = 1;
+        audioPersistenceThreshold = 9;
     }
 
     public void audioThreshold() {

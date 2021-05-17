@@ -10,9 +10,10 @@ public class Tree extends Door {
         animated = false;
         width = 2 * TILE;
         height = 2 * TILE;
+        doorSound = SND_TREE_FALL;
         // Audio influence:
         waveInfluence = WAVE_SAW;
         freqInfluence = FREQ_HIGH;
-        audioPersistence = 3;
+        audioPersistenceThreshold = SOUNDFUL ? 15 : 10;
     }
 }

@@ -6,7 +6,7 @@ public interface Constants {
     // ---------------------------- Variables:
     // Debug / Data collection:
     boolean DEBUG = false;
-    String LOG_FILENAME = "uploadme.txt";
+    String LOG_FILENAME = "AudioGunGame uploadme.txt";
 
     // Game Version:
     boolean SOUNDFUL = true;
@@ -31,8 +31,8 @@ public interface Constants {
     int GUI_HEIGHT = 48 * SCALE; // In pixels.
     int ROOM_WIDTH = WINDOW_WIDTH; // In pixels.
     int ROOM_HEIGHT = WINDOW_HEIGHT - GUI_HEIGHT; // In pixels.
-    int WORLD_WIDTH = 16; // In rooms.
-    int WORLD_HEIGHT = 16; // In rooms.
+    int WORLD_WIDTH = 6; // In rooms.
+    int WORLD_HEIGHT = 6; // In rooms.
     int TILE = 16 * SCALE; // The width/height of a single tile (16 pixels times the game scale). Objects should have dimensions that are measured in whole tiles!
     int SPEED_LIMIT = TILE / 4; // The limit to how fast objects are allowed to move (for the sake of accurate collisions)
     int UP = 0;
@@ -104,8 +104,30 @@ public interface Constants {
     int SPR_DOOR_GATE_H_LENGTH = 2;
     int SPR_ENEMY_BIGSLIME_START = 175;
     int SPR_ENEMY_BIGSLIME_LENGTH = 12;
+    int SPR_DOOR_CRATE_START = 187;
+    int SPR_DOOR_CRATE_LENGTH = 2;
+    int SPR_COMPUTER = 189;
+    int SPR_DOOR_WALL_H_ALT_START = 190;
+    int SPR_DOOR_WALL_H_ALT_LENGTH = 2;
+    int SPR_DOOR_WALL_V_ALT_START = 192;
+    int SPR_DOOR_WALL_V_ALT_LENGTH = 2;
+    int SPR_DOOR_TREE_ALT_START = 194;
+    int SPR_DOOR_TREE_ALT_LENGTH = 2;
 
     // ---------------------------- Audio index markers:
 
     int SND_MUSIC = 0;
+    int SND_BRICK_SMASH = 1;
+    int SND_CRATE_SMASH = 2;
+    int SND_TREE_FALL = 3;
+    int SND_COIN_APPEAR = 4;
+    int SND_COIN_COLLECT = 5;
+    int SND_FOOTSTEP = 6;
+    int SND_SLIME_SMALL = 7;
+    int SND_SLIME_SMALL_DEAD = 8;
+    int SND_SLIME_BIG = 9;
+    int SND_SLIME_BIG_DEAD = 10;
+    int SND_DOOR = 11;
+    int SND_DIALOGUE = 12;
+    int SND_DIALOGUE_END = 13;
 }

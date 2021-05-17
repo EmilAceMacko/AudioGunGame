@@ -208,13 +208,39 @@ public interface Assets {
             "enemies/bigslime/spr_bigslime_9.png",
             "enemies/bigslime/spr_bigslime_10.png",
             "enemies/bigslime/spr_bigslime_11.png",
-            "enemies/bigslime/spr_bigslime_12.png"
+            "enemies/bigslime/spr_bigslime_12.png",
+            // DOOR - CRATE:
+            "doors/spr_crate_1.png",
+            "doors/spr_crate_2.png",
+            // COMPUTER:
+            "spr_computer.png",
+            // DOOR - FAKE WALL (ALT):
+            "doors/spr_wall_h_1_alt.png", // Spr no. 190
+            "doors/spr_wall_h_2_alt.png",
+            "doors/spr_wall_v_1_alt.png",
+            "doors/spr_wall_v_2_alt.png",
+            // DOOR - FAKE TREE (ALT):
+            "doors/spr_tree_1_alt.png",
+            "doors/spr_tree_2_alt.png"
 
     };
     // Directory of the audio files:
     String audioDir = "resources/audio/";
     // Filenames of the sound effects/music:
     String[] soundFiles = {
-            "music.wav"
+            "music.wav",
+            "snd_brick_smash.wav",
+            "snd_crate_smash.wav",
+            "snd_tree_fall.wav",
+            "snd_coin_appear.wav",
+            "snd_coin_collect.wav",
+            "snd_footstep.wav",
+            "snd_slime_small.wav",
+            "snd_slime_small_dead.wav",
+            "snd_slime_big.wav",
+            "snd_slime_big_dead.wav",
+            "snd_door.wav",
+            "snd_dialogue.wav",
+            "snd_dialogue_end.wav"
     };
 }

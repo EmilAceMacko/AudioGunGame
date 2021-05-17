@@ -5,14 +5,14 @@
 	-tiles
 		8	8	8	5	5	8	8	8	8	8	8	8	8	8	8	8
 		8	7	7	5	5	7	7	7	7	7	7	7	7	7	7	8
-		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
+		8	5	16	17	18	5	5	5	5	5	5	5	5	5	5	8
+		8	5	20	21	22	5	5	5	5	5	5	5	5	5	5	8
+		8	5	24	25	26	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5   5	5	5	5	5	5	5	5	5	5	9
 		7	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
 		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	5
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		9	5	5	5	5	5	5	5	5	5	5	5	5	5	5	9
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
 	\tiles
@@ -69,5 +69,66 @@
         -w 2
         -h 2
     \object
+	
+	-object # House
+		-type wall
+		-x 2
+		-y 2
+		-w 3
+		-h 3
+	\object
+	
+	-object # NPC Slime Person
+		-type npc slimeperson2
+		-x 3
+		-y 5
+	\object
+	
+	
+	-object # Wall Fake
+		-type door wallh
+		-x 3
+		-y 0
+	\object
+	
+	-object # Gate
+		-type door gatev
+		-x 15
+		-y 7
+	\object
+	
+	-object # Enemy BigSlime 1
+		-type enemy bigslime
+		-x 8
+		-y 2
+        -rx 1
+        -ry 1
+        -rw 14
+        -rh 10
+        -rsx 1
+        -rsy 0.5
+	\object
+	-object # Enemy BigSlime 2
+		-type enemy bigslime
+		-x 6
+		-y 7
+        -rx 1
+        -ry 1
+        -rw 14
+        -rh 10
+        -rsx -0.5
+        -rsy 1
+	\object
+	-object # Enemy BigSlime 3
+		-type enemy bigslime
+		-x 12
+		-y 8
+        -rx 1
+        -ry 1
+        -rw 14
+        -rh 10
+        -rsx -1
+        -rsy -1
+	\object
 
 \room

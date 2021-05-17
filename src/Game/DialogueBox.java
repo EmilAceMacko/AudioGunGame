@@ -69,7 +69,7 @@ public class DialogueBox implements Constants {
             }
 
             // Set position:
-            if(upper) pos.y = BOX_Y_UPPER;
+            if (upper) pos.y = BOX_Y_UPPER;
             else pos.y = BOX_Y_LOWER;
 
             // Box dialogue writing:
@@ -125,6 +125,7 @@ public class DialogueBox implements Constants {
                         } else { // This was the final dialogue string:
                             open = false;
                         }
+                        Game.playSound(SND_DIALOGUE);
                     }
                 }
                 // If the dialogue box has fully closed:
@@ -163,11 +164,13 @@ public class DialogueBox implements Constants {
         active = true;
         writing = true;
         open = true;
+        Game.playSound(SND_DIALOGUE);
     }
     // Stop the dialogue box (used by DeeJay to stop dialogue):
     public void stop() {
         writing = false;
         open = false;
+        Game.playSound(SND_DIALOGUE_END);
     }
 
     // Resets basic per-dialogue variables: (For when moving to the next dialogue string)

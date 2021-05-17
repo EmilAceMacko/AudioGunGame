@@ -10,9 +10,10 @@ public class NPC_TreePerson extends NPC {
     public NPC_TreePerson() {
         super();
         coinID = 1;
-        preDialogue = new String[2];
+        preDialogue = new String[3];
         preDialogue[0] = "When did that tree grow here? Now I can't pass through anymore.";
         preDialogue[1] = "Maybe if I had a SAW of some sort...";
+        preDialogue[2] = "Then I could HIT the tree REPEATEDLY until it was chopped down.";
         postDialogue = new String[1];
         postDialogue[0] = "Wow! Thank you! Luckily your AUDIO GUN had a SAW waveform.";
         // Set animation:

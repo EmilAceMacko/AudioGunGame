@@ -3,9 +3,9 @@ package Objects;
 import Game.Entity;
 
 public class Enemy extends Entity {
-    public boolean dead = false;
-
-
+    // Variables:
+    public boolean dead;
+    // Constructor:
     public Enemy() {
         super();
         // Default values:
@@ -13,15 +13,13 @@ public class Enemy extends Entity {
     }
 
     public void update() {
-        if(!dead) {
+        if (!dead) {
             super.update();
-        } else { // Is dead:
-            // Play death animation:
-        }
+        } // Else: Play death animation.
     }
     // Kill the enemy:
     public void audioThreshold() {
-        if(!dead) {
+        if (!dead) {
             dead = true;
             solid = false;
             animTime = 0;

@@ -36,17 +36,20 @@ public class Coin extends GameObject {
         anim = 0f;
         bobAnim = 0f;
         deejay = Game.listGlobalObjects(DeeJay.class).get(0);
+
+        // Play coin appear sound:
+        Game.playSound(SND_COIN_APPEAR);
     }
 
     public void update() {
         if (!dead) {
             // Animate bobbing:
             bobAnim += ANIM_BOB_SPEED;
-            if(bobAnim >= 1f) bobAnim = 0f;
+            if (bobAnim >= 1f) bobAnim = 0f;
             offset.y = (float) Math.sin(bobAnim * 2 * Math.PI) * BOB_HEIGHT;
             // Animate movement:
             switch (state) {
-                case (STATE_APPEARING) -> {
+                case (STATE_APPEARING): {
                     anim += ANIM_APPEAR_SPEED;
                     pos = PVector.lerp(start, target, 1f - (float) Math.pow(1f - anim, 3));
                     if (anim >= 1f) {
@@ -54,8 +57,9 @@ public class Coin extends GameObject {
                         anim = 0f;
                         pos = target.copy();
                     }
+                    break;
                 }
-                case (STATE_WAITING) -> {
+                case (STATE_WAITING): {
                     anim += ANIM_WAIT_SPEED;
                     if (anim >= 1f) {
                         state = STATE_FLYING_TOWARDS_PLAYER;
@@ -63,15 +67,17 @@ public class Coin extends GameObject {
                         anim = 0f;
                         start = pos.copy();
                     }
+                    break;
                 }
-                case (STATE_FLYING_TOWARDS_PLAYER) -> {
+                case (STATE_FLYING_TOWARDS_PLAYER): {
                     anim += ANIM_FLY_SPEED;
                     pos = PVector.lerp(start, deejay.pos, (1f - (float) Math.cos(anim * Math.PI)) / 2f);
                     if (anim >= 1f) {
                         Game.coin++;
-                        // TODO - Play "coin get" sound!
+                        Game.playSound(SND_COIN_COLLECT);
                         dead = true;
                     }
+                    break;
                 }
             }
         }

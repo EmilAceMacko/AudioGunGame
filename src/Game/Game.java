@@ -87,14 +87,9 @@ public class Game implements Constants {
         loader.loadRoom("R_4_3.room");
         loader.loadRoom("R_5_3.room");
         // Row 4:
-        loader.loadRoom("R_2_4.room");
-        loader.loadRoom("R_3_4.room");
         loader.loadRoom("R_4_4.room");
-        loader.loadRoom("R_5_4.room");
         // Row 5:
-        loader.loadRoom("R_3_5.room");
-        // Row 6:
-        loader.loadRoom("R_3_6.room");
+        loader.loadRoom("R_4_5.room");
 
         // Create log file:
         log = new File(LOG_FILENAME);
@@ -192,7 +187,6 @@ public class Game implements Constants {
     public static void giveCoin(PVector pos) {
         Coin newCoin = new Coin(pos);
         Game.globalObjects.add(newCoin);
-        // TODO - Play coin spawn sound!
     }
     public static void giveCoin(float x, float y) {
         giveCoin(new PVector(x, y));
@@ -221,6 +215,25 @@ public class Game implements Constants {
     // Get a specific sound file:
     public static SoundFile getSound(int index) {
         return assetMgr.soundList[index];
+    }
+    // Play a specific sound file:
+    /*public static void playSound(int index, float volume) {
+        getSound(index).play(volume);
+    }*/
+    public static void playSound(int index) {
+        getSound(index).play();
+    }
+    // Set the volume of a specific sound file:
+    /*public static void setSoundVolume(int index, float volume) {
+        getSound(index).amp(volume);
+    }*/
+    // Check whether a specific sound file is playing:
+    public static boolean isSoundPlaying(int index) {
+        return getSound(index).isPlaying();
+    }
+    // Stop a specific sound file (if playing):
+    public static void stopSound(int index) {
+        if(isSoundPlaying(index)) getSound(index).stop();
     }
 
     // Get the distance between two points:
@@ -290,15 +303,15 @@ public class Game implements Constants {
     }
     // Write the data categories to the log file:
     public static void writeLogStartgame() {
-        Game.writeLog("Datatype\tID\tTimestamp\tTimestampSeconds\tcoincount");
+        Game.writeLog("DataType\tID\tTimeStamp\tTimeStampSeconds\tCoinCount\n");
     }
     // Write coin acquisition to log file:
     public static void writeLogCoin(int coinID, boolean secret) {
-        Game.writeLog("Coin" + (secret ? "S" : "") + "\t" + coinID + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin);
+        Game.writeLog("Coin" + (secret ? "S" : "") + "\t" + coinID + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin + "\n");
     }
     // Write endgame arrival to log file:
     public static void writeLogEndgame() {
-        Game.writeLog("End" + "\t" + "-" + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin);
+        Game.writeLog("End" + "\t" + (SOUNDFUL ? "A" : "B") + "\t" + getTimeFormatted() + "\t" + (time/FPS) + "\t" + coin + "\n");
     }
 
     // Close the log:

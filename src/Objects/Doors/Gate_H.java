@@ -10,5 +10,6 @@ public class Gate_H extends Door {
         animated = false;
         width = 2 * TILE;
         height = TILE;
+        doorSound = SND_DOOR;
     }
 }

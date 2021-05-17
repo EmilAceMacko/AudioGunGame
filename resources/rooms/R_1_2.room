@@ -3,18 +3,18 @@
 	-y 2
 
 	-tiles
-		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
-		8	7	7	7	7	7	7	7	7	7	7	7	7	7	7	8
-		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	5
-		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
+		33	33	33	33	33	33	33	33	33	33	33	33	33	33	33	33
+		33	32	32	32	32	32	32	32	32	32	32	32	32	32	32	33
+		33	5	5	5	5	5	5	5	5	5	5   5	5	5	5	33
+		33	5	5	8	8	8	5	5	8	8	8	8	8	5	5	33
+		33	5	5	8	7	7	5	5	7	7	7	7	8	5	5	33
+		33	5	5	8	5	5	5	5	5	5	5	5	8	5	5	33
+		33	5	5	8	5   5	5	5	5	5	5	5	8	5	5	33
+		33	5	5	8	5	5	5	5	5	5	5	5	8	5	5	33
+		33	5	5	8	8	8	8	8	8	8	8	8	8	5	5	33
+		33	5	5	7	7	7	7	7	7	7	7	7	7	5	5	32
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	5
+		33	33	33	33	33	33	33	33	33	33	33	33	33	33	33	33
 	\tiles
 
 	-object # North wall
@@ -47,6 +47,54 @@
 		-y 1
 		-w 1
 		-h 8
+	\object
+	
+	-object # Box North wall 1
+		-type wall
+		-x 3
+		-y 3
+		-w 3
+		-h 1
+	\object
+	-object # Box North wall 2
+		-type wall
+		-x 8
+		-y 3
+		-w 5
+		-h 1
+	\object
+	-object # Box South wall
+		-type wall
+		-x 3
+		-y 8
+		-w 10
+		-h 1
+	\object
+	-object # Box West wall
+		-type wall
+		-x 3
+		-y 4
+		-w 1
+		-h 4
+	\object
+	-object # Box East wall
+		-type wall
+		-x 12
+		-y 4
+		-w 1
+		-h 4
+	\object
+	
+	-object # Fake wall
+		-type door wallh
+		-x 6
+		-y 3
+	\object
+	
+	-object # NPC Stuck Person
+		-type npc stuckperson
+		-x 11
+		-y 7
 	\object
 
 \room

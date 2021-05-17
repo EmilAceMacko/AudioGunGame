@@ -1,0 +1,121 @@
+-room
+	-x 4
+	-y 5
+
+	-tiles
+		33	33	33	5	5	33	33	33	33	33	33	33	33	33	33	33
+		33	32	32	5	5	32	32	32	32	32	32	32	32	32	32	33
+		33	5	5	5	5	5	5	5	5	5	5   5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5   5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	5	5	5	5	5	5	5	5	5	5	5	5	5	5	33
+		33	33	33	33	33	33	33	33	33	33	33	33	33	33	33	33
+	\tiles
+
+	-object # North wall 1
+		-type wall
+		-x 0
+		-y -1
+		-w 3
+		-h 2
+	\object
+	-object # North wall 2
+		-type wall
+		-x 5
+		-y -1
+		-w 11
+		-h 2
+	\object
+	
+	-object # South wall
+		-type wall
+		-x 0
+		-y 11
+		-w 16
+		-h 1
+	\object
+	
+	-object # West wall
+		-type wall
+		-x 0
+		-y 1
+		-w 1
+		-h 10
+	\object
+	
+	-object # East wall
+		-type wall
+		-x 15
+		-y 1
+		-w 1
+		-h 10
+	\object
+	
+	-object # Tree Fake 1
+		-type door treefake
+		-x 1
+		-y 1
+	\object
+	-object # Tree Fake 2
+		-type door treefake
+		-x 10
+		-y 1
+	\object
+	-object # Tree Fake 3
+		-type door treefake
+		-x 13
+		-y 2
+	\object
+	-object # Tree Fake 4
+		-type door treefake
+		-x 6
+		-y 3
+	\object
+	-object # Tree Fake 5
+		-type door treefake
+		-x 3
+		-y 4
+	\object
+	-object # Tree Fake 6
+		-type door treefake
+		-x 8
+		-y 6
+	\object
+	-object # Tree Fake 7
+		-type door treefake
+		-x 2
+		-y 8
+	\object
+	-object # Tree Fake 8
+		-type door treefake
+		-x 11
+		-y 8
+	\object
+	-object # Tree Fake 9
+		-type door treefake
+		-x 8
+		-y 9
+	\object
+	-object # Tree 1
+		-type door tree
+		-x 13
+		-y 5
+	\object
+	-object # Tree 2
+		-type door tree
+		-x 5
+		-y 7
+	\object
+	
+	-object # NPC Tree Person
+		-type npc treeperson3
+		-x 11
+		-y 4
+	\object
+
+\room

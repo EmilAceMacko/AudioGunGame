@@ -1,0 +1,8 @@
+DataType	ID	TimeStamp	TimeStampSeconds	CoinCount
+Coin	1	0:00:16	16	0
+Coin	2	0:00:29	29	1
+Coin	3	0:00:35	35	2
+CoinS	4	0:00:49	49	3
+Coin	6	0:01:11	71	4
+Coin	8	0:01:29	89	5
+End	-	0:01:37	97	6

@@ -3,18 +3,18 @@
 	-y 3
 
 	-tiles
-		8	8	8	5	5	8	8	8	8	8	8	8	8	8	8	8
-		8	7	7	5	5	7	7	7	7	7	7	7	7	7	7	8
-		8	5	5	5	5	5	5	5	5	5	5   5	5	5	5	8
-		7	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
+		8	8	9	5	5	9	8	8	8	8	8	8	8	8	8	8
+		8	7	7	5	5	7	7	8	8	8	8	8	8	8	8	8
+		8	5	5	5	5	5	5	8	8	8	8   8	8	8	8	8
+		8	5	5	5	5	5	5	8	8	8	8	8	8	8	8	8
+		7	5	5	5	5	5	5	7	7	7	7	7	7	7	7	9
+		5	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
+		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	5
+		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	9
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5   5	5	5	5	5	5	5	5	5	5	8
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	7
-		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	5
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
 		8	5	5	5	5	5	5	5	5	5	5	5	5	5	5	8
-		8	8	8	8	8	8	8	8	8	8	8	8	8	8	8	8
+		8	8	8	8	8	8	8	8	8	5	5	8	8	8	8	8
 	\tiles
 
 	-object # North wall 1
@@ -32,12 +32,19 @@
 		-h 2
 	\object
 	
-	-object # South wall
+	-object # South wall 1
 		-type wall
 		-x 0
 		-y 11
-		-w 16
-		-h 1
+		-w 9
+		-h 2
+	\object
+	-object # South wall 2
+		-type wall
+		-x 11
+		-y 11
+		-w 5
+		-h 2
 	\object
 	
 	-object # West wall 1
@@ -45,14 +52,14 @@
 		-x -1
 		-y 1
 		-w 2
-		-h 2
+		-h 3
 	\object
 	-object # West wall 2
 		-type wall
 		-x -1
-		-y 5
+		-y 6
 		-w 2
-		-h 6
+		-h 5
 	\object
 	
 	-object # East wall 1
@@ -60,14 +67,40 @@
 		-x 15
 		-y 1
 		-w 2
-		-h 6
+		-h 4
 	\object
 	-object # East wall 2
 		-type wall
 		-x 15
-		-y 9
+		-y 7
 		-w 2
-		-h 2
+		-h 4
+	\object
+	
+	
+	-object # North-east wall-block
+		-type wall
+		-x 7
+		-y 1
+		-w 8
+		-h 3
+	\object
+	
+	-object # Tree
+		-type door tree
+		-x 14
+		-y 5
+	\object
+	
+	-object # Wall Fake 1
+		-type door wallv
+		-x 0
+		-y 4
+	\object
+	-object # Wall Fake 2
+		-type door wallh
+		-x 9
+		-y 11
 	\object
 
 \room
